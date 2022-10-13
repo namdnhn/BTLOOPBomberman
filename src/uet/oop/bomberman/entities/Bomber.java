@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 public class Bomber extends Entity {
-    private static double SPEED = 2;
+    private static int SPEED = 1;
 
     public void setGoUp(boolean goUp) {
         this.goUp = goUp;
@@ -36,19 +36,19 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         if (goUp) {
-            this.y -= SPEED;
+            this.y = y - SPEED;
         }
 
         if (goDown) {
-            this.y += SPEED;
+            this.y = y + SPEED;
         }
 
         if (goLeft) {
-            this.x -= SPEED;
+            this.x = x - SPEED;
         }
 
         if (goRight) {
-            this.x += SPEED;
+            this.x = x + SPEED;
         }
     }
 

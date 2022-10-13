@@ -16,25 +16,27 @@ import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import javax.security.auth.kerberos.KerberosTicket;
-//import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BombermanGame extends Application {
-    
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+
+    public static int WIDTH = 31;
+    public static int HEIGHT = 13;
     
     private GraphicsContext gc;
     private Canvas canvas;
     Scene scene;
+    public int LEVEL;
+
+    int countRow = 0;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
@@ -113,17 +115,47 @@ public class BombermanGame extends Application {
 
 
     public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
+//        for (int i = 0; i < WIDTH; i++) {
+//            for (int j = 0; j < HEIGHT; j++) {
+//                Entity object;
+//                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
+//                    object = new Wall(i, j, Sprite.wall.getFxImage());
+//                }
+//                else {
+//                    object = new Grass(i, j, Sprite.grass.getFxImage());
+//                }
+//                stillObjects.add(object);
+//            }
+//        }
+
+        File file = new File("res/levels/Level1.txt");
+        try {
+            Scanner sc = new Scanner(file);
+            LEVEL = sc.nextInt();
+            HEIGHT = sc.nextInt();
+            WIDTH = sc.nextInt();
+
+            while (sc.hasNextLine()) {
+                String s = sc.nextLine();
+                System.out.println(s);
+                char[] c = s.toCharArray();
+                for (int i = 0; i < c.length; ++i) {
+                    Entity entity;
+                    if (c[i] == '#') {
+                        entity = new Wall(i, countRow, Sprite.wall.getFxImage());
+                    } else if (c[i] == '*') {
+                        entity = new Brick(i, countRow, Sprite.brick.getFxImage());
+                    } else {
+                        entity = new Grass(i, countRow, Sprite.grass.getFxImage());
+                    }
+                    stillObjects.add(entity);
                 }
-                else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
+                ++countRow;
             }
+            sc.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
