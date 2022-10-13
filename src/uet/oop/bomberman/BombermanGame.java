@@ -33,10 +33,9 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    Scene scene;
+    public Scene scene;
     public int LEVEL;
 
-    int countRow = 0;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
@@ -83,15 +82,19 @@ public class BombermanGame extends Application {
                 switch (event.getCode()) {
                     case UP:
                         bomberman.setGoUp(true);
+                        bomberman.status = Bomber.WALK_TYPE.UP;
                         break;
                     case DOWN:
                         bomberman.setGoDown(true);
+                        bomberman.status = Bomber.WALK_TYPE.DOWN;
                         break;
                     case LEFT:
                         bomberman.setGoLeft(true);
+                        bomberman.status = Bomber.WALK_TYPE.LEFT;
                         break;
                     case RIGHT:
                         bomberman.setGoRight(true);
+                        bomberman.status = Bomber.WALK_TYPE.RIGHT;
                         break;
                 }
             }
@@ -115,25 +118,15 @@ public class BombermanGame extends Application {
 
 
     public void createMap() {
-//        for (int i = 0; i < WIDTH; i++) {
-//            for (int j = 0; j < HEIGHT; j++) {
-//                Entity object;
-//                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-//                    object = new Wall(i, j, Sprite.wall.getFxImage());
-//                }
-//                else {
-//                    object = new Grass(i, j, Sprite.grass.getFxImage());
-//                }
-//                stillObjects.add(object);
-//            }
-//        }
 
         File file = new File("res/levels/Level1.txt");
         try {
+            int countRow = -1;
             Scanner sc = new Scanner(file);
             LEVEL = sc.nextInt();
             HEIGHT = sc.nextInt();
             WIDTH = sc.nextInt();
+            sc.skip("");
 
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
@@ -150,7 +143,7 @@ public class BombermanGame extends Application {
                     }
                     stillObjects.add(entity);
                 }
-                ++countRow;
+                countRow++;
             }
             sc.close();
         }
@@ -170,8 +163,6 @@ public class BombermanGame extends Application {
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
     }
-
-
 
 
 }
