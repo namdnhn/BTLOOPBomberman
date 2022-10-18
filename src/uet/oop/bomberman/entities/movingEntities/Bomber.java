@@ -1,5 +1,6 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.movingEntities;
 
+import javafx.application.Application;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.SnapshotParameters;
@@ -9,9 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Bomber extends Entity {
+public class Bomber extends movingEntity {
     private static int SPEED = 2;
 
     private int time = 0;
@@ -84,13 +86,9 @@ public class Bomber extends Entity {
                 break;
             case RIGHT:
                 img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, time, 9).getFxImage();
-                time ++;
-                break;
-            default:
-                img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, time, 9).getFxImage();
+                time++;
                 break;
         }
     }
-
 
 }

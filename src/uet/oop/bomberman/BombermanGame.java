@@ -8,18 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.*;
-import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.movingEntities.*;
 
-import javax.security.auth.kerberos.KerberosTicket;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -37,6 +31,7 @@ public class BombermanGame extends Application {
     public int LEVEL;
 
     private List<Entity> entities = new ArrayList<>();
+    private List<movingEntity> movingEntities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
 
@@ -73,7 +68,7 @@ public class BombermanGame extends Application {
         createMap();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
+        movingEntities.add(bomberman);
 
         /** Moving Key. */
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -111,7 +106,6 @@ public class BombermanGame extends Application {
                 }
             }
         });
-
 
     }
 
@@ -155,12 +149,14 @@ public class BombermanGame extends Application {
 
 
     public void update() {
+        movingEntities.forEach(movingEntity::update);
         entities.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
+        movingEntities.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
     }
 
