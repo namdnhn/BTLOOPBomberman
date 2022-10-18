@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.movingEntities.*;
@@ -30,11 +31,19 @@ public class BombermanGame extends Application {
     public Scene scene;
     public int LEVEL;
 
-    private List<Entity> entities = new ArrayList<>();
     private List<movingEntity> movingEntities = new ArrayList<>();
+
+    private List<Grass> grassEntities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
 
+//    public Entity getStillEntity (int x, int y) {
+//        for (Entity e : stillObjects) {
+//            if (e.getX() == x && e.getY() == y) {
+//                return e;
+//            }
+//        }
+//    }
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -120,6 +129,16 @@ public class BombermanGame extends Application {
             LEVEL = sc.nextInt();
             HEIGHT = sc.nextInt();
             WIDTH = sc.nextInt();
+
+            for (int i = 0; i < HEIGHT; ++i) {
+                for (int j = 0; j < WIDTH; ++j) {
+                    Grass grass;
+                    grass = new Grass(j, i, Sprite.grass.getFxImage());
+                    grassEntities.add(grass);
+                    System.out.println("make grass");
+                }
+            }
+
             sc.skip("");
 
             while (sc.hasNextLine()) {
@@ -130,12 +149,13 @@ public class BombermanGame extends Application {
                     Entity entity;
                     if (c[i] == '#') {
                         entity = new Wall(i, countRow, Sprite.wall.getFxImage());
+                        stillObjects.add(entity);
+                        System.out.println("make wall");
                     } else if (c[i] == '*') {
                         entity = new Brick(i, countRow, Sprite.brick.getFxImage());
-                    } else {
-                        entity = new Grass(i, countRow, Sprite.grass.getFxImage());
+                        stillObjects.add(entity);
+                        System.out.println("make break");
                     }
-                    stillObjects.add(entity);
                 }
                 countRow++;
             }
@@ -150,14 +170,13 @@ public class BombermanGame extends Application {
 
     public void update() {
         movingEntities.forEach(movingEntity::update);
-        entities.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        grassEntities.forEach(g -> g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
     }
 
 

@@ -26,5 +26,8 @@ public abstract class movingEntity {
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
+
+    public abstract void move();
+
     public abstract void update();
 }

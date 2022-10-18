@@ -45,8 +45,13 @@ public class Bomber extends movingEntity {
         super( x, y, img);
     }
 
+    public boolean canMove(int x, int y) {
+
+        return false;
+    }
+
     @Override
-    public void update() {
+    public void move() {
         if (goUp) {
             this.y = y - SPEED;
             animation();
@@ -66,6 +71,11 @@ public class Bomber extends movingEntity {
             this.x = x + SPEED;
             animation();
         }
+    }
+
+    @Override
+    public void update() {
+        move();
     }
 
     /** Moving Key. */
