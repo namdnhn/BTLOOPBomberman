@@ -10,8 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameMap;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.GameMap;
 
 public class Bomber extends movingEntity {
     private static int SPEED = 2;
@@ -37,40 +39,46 @@ public class Bomber extends movingEntity {
     private boolean goUp, goDown, goLeft, goRight;
 
     public WALK_TYPE status;
-    public enum WALK_TYPE {
-        RIGHT, LEFT, UP, DOWN
-    }
 
     public Bomber(int x, int y, Image img) {
-        super( x, y, img);
+        super(x, y, img);
+        wallPass = false;
+        valX = 0;
+        valY = 0;
+        w = 28;
+        h = 28;
     }
 
     public boolean canMove(int x, int y) {
-
-        return false;
+        return BombermanGame.getStillEntity(x, y) == null;
     }
 
     @Override
     public void move() {
+        valX = 0;
+        valY = 0;
         if (goUp) {
-            this.y = y - SPEED;
+            valY -= SPEED;
             animation();
         }
 
-        if (goDown) {
-            this.y = y + SPEED;
+        else if (goDown) {
+            valY += SPEED;
             animation();
         }
 
-        if (goLeft) {
-            this.x = x - SPEED;
+        else if (goLeft) {
+            valX -= SPEED;
             animation();
         }
 
-        if (goRight) {
-            this.x = x + SPEED;
+        else if (goRight) {
+            valX += SPEED;
             animation();
         }
+
+        x += valX;
+        y += valY;
     }
 
     @Override

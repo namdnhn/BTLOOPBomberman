@@ -28,22 +28,23 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    public Scene scene;
+    public static Scene scene;
     public int LEVEL;
 
-    private List<movingEntity> movingEntities = new ArrayList<>();
+    public static List<movingEntity> movingEntities = new ArrayList<>();
 
     private List<Grass> grassEntities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+    private static List<Entity> stillObjects = new ArrayList<>();
 
 
-//    public Entity getStillEntity (int x, int y) {
-//        for (Entity e : stillObjects) {
-//            if (e.getX() == x && e.getY() == y) {
-//                return e;
-//            }
-//        }
-//    }
+    public static Entity getStillEntity (int x, int y) {
+        for (Entity e : stillObjects) {
+            if (e.getX() == x && e.getY() == y) {
+                return e;
+            }
+        }
+        return null;
+    }
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -86,18 +87,22 @@ public class BombermanGame extends Application {
                 switch (event.getCode()) {
                     case UP:
                         bomberman.setGoUp(true);
+                        bomberman.setGoDown(false);
                         bomberman.status = Bomber.WALK_TYPE.UP;
                         break;
                     case DOWN:
                         bomberman.setGoDown(true);
+                        bomberman.setGoUp(false);
                         bomberman.status = Bomber.WALK_TYPE.DOWN;
                         break;
                     case LEFT:
                         bomberman.setGoLeft(true);
+                        bomberman.setGoRight(false);
                         bomberman.status = Bomber.WALK_TYPE.LEFT;
                         break;
                     case RIGHT:
                         bomberman.setGoRight(true);
+                        bomberman.setGoLeft(false);
                         bomberman.status = Bomber.WALK_TYPE.RIGHT;
                         break;
                 }
