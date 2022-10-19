@@ -77,6 +77,7 @@ public class Bomber extends movingEntity {
             animation();
         }
 
+        BombermanGame.map.mapCollision(this);
         x += valX;
         y += valY;
     }

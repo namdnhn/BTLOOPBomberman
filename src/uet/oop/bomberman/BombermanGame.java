@@ -33,8 +33,8 @@ public class BombermanGame extends Application {
 
     public static List<movingEntity> movingEntities = new ArrayList<>();
 
-    private List<Grass> grassEntities = new ArrayList<>();
-    private static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Grass> grassEntities = new ArrayList<>();
+    public static List<Entity> stillObjects = new ArrayList<>();
 
 
     public static Entity getStillEntity (int x, int y) {
@@ -125,53 +125,12 @@ public class BombermanGame extends Application {
 
 
 
+    public static GameMap map = new GameMap();
     public void createMap() {
 
-        File file = new File("res/levels/Level1.txt");
-        try {
-            int countRow = -1;
-            Scanner sc = new Scanner(file);
-            LEVEL = sc.nextInt();
-            HEIGHT = sc.nextInt();
-            WIDTH = sc.nextInt();
-
-            for (int i = 0; i < HEIGHT; ++i) {
-                for (int j = 0; j < WIDTH; ++j) {
-                    Grass grass;
-                    grass = new Grass(j, i, Sprite.grass.getFxImage());
-                    grassEntities.add(grass);
-                    System.out.println("make grass");
-                }
-            }
-
-            sc.skip("");
-
-            while (sc.hasNextLine()) {
-                String s = sc.nextLine();
-                System.out.println(s);
-                char[] c = s.toCharArray();
-                for (int i = 0; i < c.length; ++i) {
-                    Entity entity;
-                    if (c[i] == '#') {
-                        entity = new Wall(i, countRow, Sprite.wall.getFxImage());
-                        stillObjects.add(entity);
-                        System.out.println("make wall");
-                    } else if (c[i] == '*') {
-                        entity = new Brick(i, countRow, Sprite.brick.getFxImage());
-                        stillObjects.add(entity);
-                        System.out.println("make break");
-                    }
-                }
-                countRow++;
-            }
-            sc.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        map.readMap();
+        map.loadMap();
     }
-
-
 
     public void update() {
         movingEntities.forEach(movingEntity::update);
