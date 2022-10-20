@@ -37,7 +37,6 @@ public class BombermanGame extends Application {
 
     public static List<Grass> grassEntities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
-    public static List<Bomb> bombs = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
 
 
@@ -53,6 +52,7 @@ public class BombermanGame extends Application {
         Application.launch(BombermanGame.class);
     }
 
+    Bomber bomberman;
     @Override
     public void start(Stage stage) {
         // Tao Canvas
@@ -81,7 +81,7 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Bomber bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
+        bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
         movingEntities.add(bomberman);
 
         /** Moving Key. */
@@ -127,14 +127,10 @@ public class BombermanGame extends Application {
                 }
             }
         });
-
     }
-
-
 
     public static GameMap map = new GameMap();
     public void createMap() {
-
         map.readMap();
         map.loadMap();
     }
@@ -142,7 +138,6 @@ public class BombermanGame extends Application {
     public void update() {
         movingEntities.forEach(movingEntity::update);
         enemies.forEach(Enemy::update);
-        bombs.forEach(Bomb::update);
     }
 
     public void render() {
@@ -151,8 +146,7 @@ public class BombermanGame extends Application {
         stillObjects.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
         enemies.forEach(g -> g.render(gc));
-
-        bombs.forEach(g -> g.render(gc));
+        bomberman.renderBomb(gc);
     }
 
 

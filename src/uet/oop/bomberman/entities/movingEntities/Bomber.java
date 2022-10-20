@@ -16,7 +16,12 @@ import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.GameMap;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Bomber extends movingEntity {
+    public static List<Bomb> bombs = new ArrayList<>();
 
     public void setGoUp(boolean goUp) {
         this.goUp = goUp;
@@ -53,8 +58,8 @@ public class Bomber extends movingEntity {
     }
 
     public void placeBomb(int x, int y) {
-        Bomb bomb = new Bomb(this.x, this.y, Sprite.bomb.getFxImage());
-        BombermanGame.bombs.add(bomb);
+        Bomb bomb = new Bomb(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE , Sprite.bomb.getFxImage());
+        bombs.add(bomb);
     }
 
     @Override
@@ -112,6 +117,13 @@ public class Bomber extends movingEntity {
                 img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, time, 9).getFxImage();
                 time++;
                 break;
+        }
+    }
+
+
+    public void renderBomb(GraphicsContext gc) {
+        for (Bomb b : bombs) {
+            b.render(gc);
         }
     }
 
