@@ -16,10 +16,10 @@ public abstract class movingEntity {
         return y;
     }
 
-    //Tọa độ X tính từ góc trái trên trong Canvas
+    protected int SPEED;
+
     protected int x;
 
-    //Tọa độ Y tính từ góc trái trên trong Canvas
     protected int y;
 
     public int getValX() {
@@ -101,9 +101,9 @@ public abstract class movingEntity {
     protected boolean wallPass;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public movingEntity( int xUnit, int yUnit, Image img) {
-        this.x = xUnit * Sprite.SCALED_SIZE;
-        this.y = yUnit * Sprite.SCALED_SIZE;
+    public movingEntity(int xUnit, int yUnit, Image img) {
+        this.x = xUnit;
+        this.y = yUnit;
         this.img = img;
     }
 
@@ -111,6 +111,9 @@ public abstract class movingEntity {
         gc.drawImage(img, x, y);
     }
 
+    protected int time = 0;
+    public WALK_TYPE status;
+    public abstract void animation();
     public abstract void move();
 
     public abstract void update();

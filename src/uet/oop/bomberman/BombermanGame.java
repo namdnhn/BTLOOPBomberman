@@ -11,7 +11,9 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
+import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.movingEntities.*;
 
@@ -35,6 +37,8 @@ public class BombermanGame extends Application {
 
     public static List<Grass> grassEntities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Bomb> bombs = new ArrayList<>();
+    public static List<Enemy> enemies = new ArrayList<>();
 
 
     public static Entity getStillEntity (int x, int y) {
@@ -77,7 +81,7 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Bomber bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
         movingEntities.add(bomberman);
 
         /** Moving Key. */
@@ -104,6 +108,9 @@ public class BombermanGame extends Application {
                         bomberman.setGoRight(true);
                         bomberman.setGoLeft(false);
                         bomberman.status = Bomber.WALK_TYPE.RIGHT;
+                        break;
+                    case SPACE:
+                        bomberman.placeBomb(bomberman.getX(), bomberman.getY());
                         break;
                 }
             }
@@ -134,6 +141,8 @@ public class BombermanGame extends Application {
 
     public void update() {
         movingEntities.forEach(movingEntity::update);
+        enemies.forEach(Enemy::update);
+        bombs.forEach(Bomb::update);
     }
 
     public void render() {
@@ -141,6 +150,9 @@ public class BombermanGame extends Application {
         grassEntities.forEach(g -> g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
+        enemies.forEach(g -> g.render(gc));
+
+        bombs.forEach(g -> g.render(gc));
     }
 
 

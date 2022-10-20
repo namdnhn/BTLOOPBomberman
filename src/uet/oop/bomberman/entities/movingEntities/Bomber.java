@@ -11,14 +11,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.GameMap;
 
 public class Bomber extends movingEntity {
-    private static int SPEED = 2;
-
-    private int time = 0;
 
     public void setGoUp(boolean goUp) {
         this.goUp = goUp;
@@ -38,19 +36,25 @@ public class Bomber extends movingEntity {
 
     private boolean goUp, goDown, goLeft, goRight;
 
-    public WALK_TYPE status;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
         wallPass = false;
+        SPEED = 3;
         valX = 0;
         valY = 0;
-        w = 28;
-        h = 28;
+        w = Sprite.SCALED_SIZE * 5 / 6;
+        h = Sprite.SCALED_SIZE * 5 / 6;
+        time = 0;
     }
 
     public boolean canMove(int x, int y) {
         return BombermanGame.getStillEntity(x, y) == null;
+    }
+
+    public void placeBomb(int x, int y) {
+        Bomb bomb = new Bomb(this.x, this.y, Sprite.bomb.getFxImage());
+        BombermanGame.bombs.add(bomb);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class Bomber extends movingEntity {
 
     /** Moving Key. */
 
+    @Override
     public void animation() {
         switch (status) {
             case UP:
