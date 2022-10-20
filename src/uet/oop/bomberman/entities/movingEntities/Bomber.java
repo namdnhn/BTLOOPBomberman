@@ -23,6 +23,12 @@ import java.util.List;
 public class Bomber extends movingEntity {
     public static List<Bomb> bombs = new ArrayList<>();
 
+    public void setBombLimit(int bombLimit) {
+        this.bombLimit = bombLimit;
+    }
+
+    private int bombLimit;
+
     public void setGoUp(boolean goUp) {
         this.goUp = goUp;
     }
@@ -51,6 +57,7 @@ public class Bomber extends movingEntity {
         w = Sprite.SCALED_SIZE * 5 / 6;
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
+        bombLimit = 1;
     }
 
     public boolean canMove(int x, int y) {
@@ -58,8 +65,29 @@ public class Bomber extends movingEntity {
     }
 
     public void placeBomb(int x, int y) {
-        Bomb bomb = new Bomb(this.x / Sprite.SCALED_SIZE, this.y / Sprite.SCALED_SIZE , Sprite.bomb.getFxImage());
-        bombs.add(bomb);
+        if (bombs.size() < bombLimit) {
+            int newX, newY;
+            if (this.x % Sprite.SCALED_SIZE < Sprite.SCALED_SIZE / 2) {
+                newX = this.x / Sprite.SCALED_SIZE;
+            } else {
+                newX = this.x / Sprite.SCALED_SIZE + 1;
+            }
+
+            if (this.y % Sprite.SCALED_SIZE < Sprite.SCALED_SIZE / 2) {
+                newY = this.y / Sprite.SCALED_SIZE;
+            } else {
+                newY = this.y / Sprite.SCALED_SIZE + 1;
+            }
+            Bomb bomb = new Bomb(newX, newY, Sprite.bomb.getFxImage());
+            bombs.add(bomb);
+            BombermanGame.map.setMAP_ENTITY(newY, newX, 'b');
+            for (int i = 0; i < BombermanGame.HEIGHT; i++) {
+                for (int j = 0; j < BombermanGame.WIDTH; j++) {
+                    System.out.print(BombermanGame.map.getMAP_ENTITIES()[i][j]);
+                }
+                System.out.print("\n");
+            }
+        }
     }
 
     @Override
@@ -94,6 +122,7 @@ public class Bomber extends movingEntity {
     @Override
     public void update() {
         move();
+        bombs.removeIf(Bomb::isRemoved);
     }
 
     /** Moving Key. */

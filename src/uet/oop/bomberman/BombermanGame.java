@@ -138,6 +138,7 @@ public class BombermanGame extends Application {
     public void update() {
         movingEntities.forEach(movingEntity::update);
         enemies.forEach(Enemy::update);
+        bomberman.bombs.forEach(Bomb::update);
     }
 
     public void render() {
