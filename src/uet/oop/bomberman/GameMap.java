@@ -98,47 +98,44 @@ public class GameMap {
                 if ((MAP_ENTITIES[y1][x2] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                         || (MAP_ENTITIES[y1][x2] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                         || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != 'I')) {
-                    if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < 26) {
+                    if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < 18) {
                         entity.raiseVY();
                         entity.raiseVX();
                     }
                 } else if ((MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y2][x2] == '*')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y2][x2] == '#')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                    if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > 32) {
+                    if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > 22) {
                         entity.lowVY();
                         entity.raiseVX();
                     }
                 }
             }
         } else if (entity.getValX() < 0) {
-            if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y2][x1] == '*') {
+            if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y2][x1] == '*'
+                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y2][x1] == '#') {
                 if (!entity.isWallPass()) {
                     entity.setValX(0);
                 }
             }
-            if (MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y2][x1] == '#'
-                    || MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y2][x1] == '*') {
-
-                if (entity instanceof Bomber) {
-                    if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#')
-                            || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')
-                            || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                        if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < 26) {
-                            entity.raiseVX();
-                            entity.lowVX();
-                        }
-                    } else if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y2][x1] == '*')
-                            || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y2][x1] == '#')
-                            || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                        if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > 32) {
-                            entity.lowVY();
-                            entity.lowVX();
-                        }
+            if (entity instanceof Bomber) {
+                if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#')
+                        || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')
+                        || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
+                    if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < 18) {
+                        entity.raiseVY();
+                        entity.lowVX();
+                    }
+                } else if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y2][x1] == '*')
+                        || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y2][x1] == '#')
+                        || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
+                    if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > 22) {
+                        entity.lowVY();
+                        entity.lowVX();
                     }
                 }
-
             }
+
         }
 
 
@@ -151,7 +148,8 @@ public class GameMap {
 
         if (x1 >= 0 && y1 >= 0) {
             if (entity.getValY() > 0) {
-                if (MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*') {
+                if (MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*'
+                    || MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#') {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
                     }
@@ -163,14 +161,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y2][x1] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                                 || (MAP_ENTITIES[y2][x1] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                                 || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
-                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < 26) {
+                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < 18) {
                                 entity.raiseVX();
                                 entity.raiseVX();
                             }
                         } else if ((MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x2] == '*')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x2] == '#')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > 32) {
+                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > 22) {
                                 entity.lowVX();
                                 entity.raiseVX();
                             }
@@ -178,7 +176,8 @@ public class GameMap {
                     }
                 }
             } else if (entity.getValY() < 0) {
-                if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*') {
+                if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*'
+                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#') {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
                     }
@@ -189,14 +188,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x2] == '*')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x2] == '#')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > 32) {
+                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > 22) {
                                 entity.lowVX();
                                 entity.lowVY();
                             }
                         } else if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#')
                                 || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')
                                 || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < 26) {
+                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < 18) {
                                 entity.raiseVX();
                                 entity.lowVY();
                             }
