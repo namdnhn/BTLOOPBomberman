@@ -36,18 +36,12 @@ public class BombermanGame extends Application {
     public static List<movingEntity> movingEntities = new ArrayList<>();
 
     public static List<Grass> grassEntities = new ArrayList<>();
-    public static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Brick> Bricks = new ArrayList<>();
+    public static List<Wall> Wall = new ArrayList<>();
+
     public static List<Enemy> enemies = new ArrayList<>();
 
 
-    public static Entity getStillEntity (int x, int y) {
-        for (Entity e : stillObjects) {
-            if (e.getX() == x && e.getY() == y) {
-                return e;
-            }
-        }
-        return null;
-    }
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -139,12 +133,15 @@ public class BombermanGame extends Application {
         movingEntities.forEach(movingEntity::update);
         enemies.forEach(Enemy::update);
         bomberman.bombs.forEach(Bomb::update);
+        Bricks.removeIf(Brick::isRemoved);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grassEntities.forEach(g -> g.render(gc));
-        stillObjects.forEach(g -> g.render(gc));
+//        stillObjects.forEach(g -> g.render(gc));
+        Bricks.forEach(g -> g.render(gc));
+        Wall.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
         enemies.forEach(g -> g.render(gc));
         bomberman.renderBomb(gc);

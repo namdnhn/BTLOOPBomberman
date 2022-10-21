@@ -23,6 +23,16 @@ import java.util.List;
 public class Bomber extends movingEntity {
     public static List<Bomb> bombs = new ArrayList<>();
 
+    public int getHeart() {
+        return heart;
+    }
+
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
+    private int heart;
+
     public void setBombLimit(int bombLimit) {
         this.bombLimit = bombLimit;
     }
@@ -58,10 +68,7 @@ public class Bomber extends movingEntity {
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
         bombLimit = 1;
-    }
-
-    public boolean canMove(int x, int y) {
-        return BombermanGame.getStillEntity(x, y) == null;
+        heart = 1;
     }
 
     public void placeBomb(int x, int y) {

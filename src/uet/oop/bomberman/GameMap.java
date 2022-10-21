@@ -52,13 +52,13 @@ public class GameMap {
         }
         for (int i = 0; i < BombermanGame.WIDTH; i++) {
             for (int j = 0; j < BombermanGame.HEIGHT; j++) {
-                Entity object;
+//                Entity object;
                 if (MAP_ENTITIES[j][i] == '#') {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                    BombermanGame.stillObjects.add(object);
+                    Wall object = new Wall(i, j, Sprite.wall.getFxImage());
+                    BombermanGame.Wall.add(object);
                 } else if (MAP_ENTITIES[j][i] == '*') {
-                    object = new Brick(i, j, Sprite.brick.getFxImage());
-                    BombermanGame.stillObjects.add(object);
+                    Brick object = new Brick(i, j, Sprite.brick.getFxImage());
+                    BombermanGame.Bricks.add(object);
                 } else if (MAP_ENTITIES[j][i] == '1') {
                     Enemy enemy = new Balloom(i, j, Sprite.balloom_right1.getFxImage());
                     BombermanGame.enemies.add(enemy);
