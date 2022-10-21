@@ -50,9 +50,9 @@ public class GameMap {
                 BombermanGame.grassEntities.add(grass);
             }
         }
+
         for (int i = 0; i < BombermanGame.WIDTH; i++) {
             for (int j = 0; j < BombermanGame.HEIGHT; j++) {
-//                Entity object;
                 if (MAP_ENTITIES[j][i] == '#') {
                     Wall object = new Wall(i, j, Sprite.wall.getFxImage());
                     BombermanGame.Wall.add(object);

@@ -90,5 +90,32 @@ public class Bomb extends Entity {
 
     public void exploding() {
         setBoom(true);
+        BombermanGame.map.setMAP_ENTITY(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
+        for (Brick b : BombermanGame.Bricks) {
+            // left
+            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1
+                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
+                b.setRemoved(true);
+                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+            }
+            // right
+            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1
+                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
+                b.setRemoved(true);
+                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+            }
+            // up
+            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1) {
+                b.setRemoved(true);
+                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+            }
+            // down
+            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1) {
+                b.setRemoved(true);
+                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+            }
+        }
     }
 }
