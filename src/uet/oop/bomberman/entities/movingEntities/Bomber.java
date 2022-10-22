@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.GameMap;
@@ -160,6 +161,11 @@ public class Bomber extends movingEntity {
     public void renderBomb(GraphicsContext gc) {
         for (Bomb b : bombs) {
             b.render(gc);
+            if (b.isBoom() && !b.isRemoved()) {
+                for (Flame f : b.getFlames()) {
+                    f.render(gc);
+                }
+            }
         }
     }
 

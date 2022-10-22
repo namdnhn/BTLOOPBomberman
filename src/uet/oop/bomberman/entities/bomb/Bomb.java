@@ -48,7 +48,12 @@ public class Bomb extends Entity {
         this.area = area;
     }
 
-    private int area = 1;
+    private int area = 2;
+
+    public List<Flame> getFlames() {
+        return flames;
+    }
+
     private List<Flame> flames = new ArrayList<>();
 
     public Bomb(int xUnit, int yUnit, Image img) {
@@ -57,9 +62,15 @@ public class Bomb extends Entity {
         isRemoved = false;
         for (int i = 0; i < area; i++) {
             if (i < area - 1) {
-                flames.add(new Flame(xUnit, yUnit - 1, Sprite.explosion_vertical.getFxImage()));
+                flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.TOP));
+                flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.DOWN));
+                flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.LEFT));
+                flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.RIGHT));
             } else {
-                flames.add(new Flame(xUnit, yUnit - 1, Sprite.explosion_vertical_top_last.getFxImage()));
+                flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical_top_last.getFxImage(), Flame.FLAME_TYPES.TOPLAST));
+                flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical_down_last.getFxImage(), Flame.FLAME_TYPES.DOWNLAST));
+                flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal_left_last.getFxImage(), Flame.FLAME_TYPES.LEFTLAST));
+                flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal_right_last.getFxImage(), Flame.FLAME_TYPES.RIGHTLAST));
             }
         }
     }
@@ -83,8 +94,12 @@ public class Bomb extends Entity {
     public void animation() {
         if (!isBoom)
             img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, time, 9).getFxImage();
-        else
+        else {
             img = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, time, 9).getFxImage();
+            for (Flame f : flames) {
+                f.animation(time);
+            }
+        }
         time++;
     }
 

@@ -139,7 +139,6 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grassEntities.forEach(g -> g.render(gc));
-//        stillObjects.forEach(g -> g.render(gc));
         Bricks.forEach(g -> g.render(gc));
         Wall.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));
