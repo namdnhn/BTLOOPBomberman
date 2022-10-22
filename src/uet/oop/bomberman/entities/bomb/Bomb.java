@@ -48,7 +48,7 @@ public class Bomb extends Entity {
         this.area = area;
     }
 
-    private int area = 2;
+    private int area = 3;
 
     public List<Flame> getFlames() {
         return flames;
@@ -56,21 +56,81 @@ public class Bomb extends Entity {
 
     private List<Flame> flames = new ArrayList<>();
 
+    private boolean isBlockUp, isBlockDown, isBlockRight, isBlockLeft;
+
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         isBoom = false;
         isRemoved = false;
+        isBlockUp = false;
+        isBlockDown = false;
+        isBlockLeft = false;
+        isBlockRight = false;
         for (int i = 0; i < area; i++) {
             if (i < area - 1) {
-                flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.TOP));
-                flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.DOWN));
-                flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.LEFT));
-                flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.RIGHT));
+                // up
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '*'
+                    || BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '#') {
+                    isBlockUp = true;
+                }
+                if (!isBlockUp)
+                    flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.TOP));
+
+                // down
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '*'
+                    || BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '#') {
+                    isBlockDown = true;
+                }
+                if (!isBlockDown)
+                    flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.DOWN));
+
+                // left
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '*'
+                    || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '#') {
+                    isBlockLeft = true;
+                }
+                if (!isBlockLeft)
+                    flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.LEFT));
+
+                // right
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '*'
+                    || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '#') {
+                    isBlockRight = true;
+                }
+                if (!isBlockRight)
+                    flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.RIGHT));
             } else {
-                flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical_top_last.getFxImage(), Flame.FLAME_TYPES.TOPLAST));
-                flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical_down_last.getFxImage(), Flame.FLAME_TYPES.DOWNLAST));
-                flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal_left_last.getFxImage(), Flame.FLAME_TYPES.LEFTLAST));
-                flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal_right_last.getFxImage(), Flame.FLAME_TYPES.RIGHTLAST));
+                // up
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '#') {
+                    isBlockUp = true;
+                }
+                if (!isBlockUp)
+                    flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical_top_last.getFxImage(), Flame.FLAME_TYPES.TOPLAST));
+
+                // down
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '#') {
+                    isBlockDown = true;
+                }
+                if (!isBlockDown)
+                    flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical_down_last.getFxImage(), Flame.FLAME_TYPES.DOWNLAST));
+
+                // left
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '#') {
+                    isBlockLeft = true;
+                }
+                if (!isBlockLeft)
+                    flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal_left_last.getFxImage(), Flame.FLAME_TYPES.LEFTLAST));
+
+                // right
+                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '#') {
+                    isBlockRight = true;
+                }
+                if (!isBlockRight)
+                    flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal_right_last.getFxImage(), Flame.FLAME_TYPES.RIGHTLAST));
             }
         }
     }
@@ -85,8 +145,46 @@ public class Bomb extends Entity {
                 exploding();
             else if (timeEnd > 0)
                 timeEnd--;
-            else
+            else {
                 setRemoved(true);
+                boolean _isBlockLeft = false;
+                boolean _isBlockRight = false;
+                boolean _isBlockUp  = false;
+                boolean _isBlockDown = false;
+                // remove breaks
+                for (int i = 0; i < area; i++) {
+                    for (Brick b : BombermanGame.Bricks) {
+                        // left
+                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
+                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockLeft) {
+                            b.setRemoved(true);
+                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+                            _isBlockLeft = true;
+                        }
+                        // right
+                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1 + i
+                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockRight) {
+                            b.setRemoved(true);
+                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+                            _isBlockRight = true;
+                        }
+                        // up
+                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i && !_isBlockUp) {
+                            b.setRemoved(true);
+                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+                            _isBlockUp = true;
+                        }
+                        // down
+                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1 + i && !_isBlockDown) {
+                            b.setRemoved(true);
+                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
+                            _isBlockDown = true;
+                        }
+                    }
+                }
+            }
         }
         animation();
     }
@@ -99,6 +197,38 @@ public class Bomb extends Entity {
             for (Flame f : flames) {
                 f.animation(time);
             }
+            boolean _isBlockLeft = false;
+            boolean _isBlockRight = false;
+            boolean _isBlockUp  = false;
+            boolean _isBlockDown = false;
+            for (Brick b : BombermanGame.Bricks) {
+                for (int i = 0; i < area; i++) {
+                    // left
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockLeft) {
+                        b.animation(time);
+                        _isBlockLeft = true;
+                    }
+                    // right
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + i + 1
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockRight) {
+                        b.animation(time);
+                        _isBlockRight = true;
+                    }
+                    // up
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i && !_isBlockUp) {
+                        b.animation(time);
+                        _isBlockUp = true;
+                    }
+                    // down
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + i + 1 && !_isBlockDown) {
+                        b.animation(time);
+                        _isBlockDown = true;
+                    }
+                }
+            }
         }
         time++;
     }
@@ -106,31 +236,5 @@ public class Bomb extends Entity {
     public void exploding() {
         setBoom(true);
         BombermanGame.map.setMAP_ENTITY(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
-        for (Brick b : BombermanGame.Bricks) {
-            // left
-            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1
-                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
-                b.setRemoved(true);
-                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-            }
-            // right
-            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1
-                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
-                b.setRemoved(true);
-                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-            }
-            // up
-            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1) {
-                b.setRemoved(true);
-                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-            }
-            // down
-            if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                    && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1) {
-                b.setRemoved(true);
-                BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-            }
-        }
     }
 }
