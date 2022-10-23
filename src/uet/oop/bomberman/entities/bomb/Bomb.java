@@ -155,6 +155,9 @@ public class Bomb extends Entity {
                 for (int i = 0; i < area; i++) {
                     for (Brick b : BombermanGame.Bricks) {
                         // left
+                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE][this.x / Sprite.SCALED_SIZE - i - 1] == '#') {
+                            _isBlockLeft = true;
+                        }
                         if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
                                 && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockLeft) {
                             b.setRemoved(true);
@@ -162,6 +165,9 @@ public class Bomb extends Entity {
                             _isBlockLeft = true;
                         }
                         // right
+                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE][this.x / Sprite.SCALED_SIZE + i + 1] == '#') {
+                            _isBlockRight = true;
+                        }
                         if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1 + i
                                 && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockRight) {
                             b.setRemoved(true);
@@ -169,6 +175,9 @@ public class Bomb extends Entity {
                             _isBlockRight = true;
                         }
                         // up
+                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE - i - 1][this.x / Sprite.SCALED_SIZE] == '#') {
+                            _isBlockUp = true;
+                        }
                         if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
                                 && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i && !_isBlockUp) {
                             b.setRemoved(true);
@@ -176,6 +185,9 @@ public class Bomb extends Entity {
                             _isBlockUp = true;
                         }
                         // down
+                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE + i + 1][this.x / Sprite.SCALED_SIZE] == '#') {
+                            _isBlockDown = true;
+                        }
                         if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
                                 && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1 + i && !_isBlockDown) {
                             b.setRemoved(true);
@@ -197,35 +209,44 @@ public class Bomb extends Entity {
             for (Flame f : flames) {
                 f.animation(time);
             }
-            boolean _isBlockLeft = false;
-            boolean _isBlockRight = false;
-            boolean _isBlockUp  = false;
-            boolean _isBlockDown = false;
-            for (Brick b : BombermanGame.Bricks) {
-                for (int i = 0; i < area; i++) {
-                    // left
+            boolean _IsBlockLeft = false;
+            boolean _IsBlockRight = false;
+            boolean _IsBlockUp  = false;
+            boolean _IsBlockDown = false;
+
+            for (int i = 0; i < area && !_IsBlockUp; i++) {
+                for (Brick b : BombermanGame.Bricks) {
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i) {
+                        b.animation(time);
+                        _IsBlockUp = true;
+                    }
+                }
+            }
+            for (int i = 0; i < area && !_IsBlockDown; i++) {
+                for (Brick b : BombermanGame.Bricks) {
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1 + i) {
+                        b.animation(time);
+                        _IsBlockDown = true;
+                    }
+                }
+            }
+            for (int i = 0; i < area && !_IsBlockLeft; i++) {
+                for (Brick b : BombermanGame.Bricks) {
                     if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
-                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockLeft) {
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
                         b.animation(time);
-                        _isBlockLeft = true;
+                        _IsBlockLeft = true;
                     }
-                    // right
-                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + i + 1
-                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockRight) {
+                }
+            }
+            for (int i = 0; i < area && !_IsBlockRight; i++) {
+                for (Brick b : BombermanGame.Bricks) {
+                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1 + i
+                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
                         b.animation(time);
-                        _isBlockRight = true;
-                    }
-                    // up
-                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i && !_isBlockUp) {
-                        b.animation(time);
-                        _isBlockUp = true;
-                    }
-                    // down
-                    if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                            && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + i + 1 && !_isBlockDown) {
-                        b.animation(time);
-                        _isBlockDown = true;
+                        _IsBlockRight = true;
                     }
                 }
             }

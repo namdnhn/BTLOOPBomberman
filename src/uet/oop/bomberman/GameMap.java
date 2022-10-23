@@ -23,8 +23,6 @@ public class GameMap {
 
     private char[][] MAP_ENTITIES = new char[BombermanGame.HEIGHT][BombermanGame.WIDTH];
 
-    private int TILE_SIZE = Sprite.SCALED_SIZE;
-
     public void readMap() {
         File file = new File("res/levels/Level1.txt");
         try {
@@ -79,16 +77,16 @@ public class GameMap {
         int s1 = Sprite.SCALED_SIZE * 5 / 6;
         int s2 = Sprite.SCALED_SIZE / 2;
         if (entity instanceof Bomber) {
-            Cx1 = (int) (entity.getX() + 1) / TILE_SIZE;
-            Cx2 = (int) (entity.getX() + entity.getW() - 1) / TILE_SIZE;
-            Cy1 = (entity.getY() + 1) / TILE_SIZE;
-            Cy2 = (entity.getY() + entity.getH() - 1) / TILE_SIZE;
+            Cx1 = (int) (entity.getX() + 1) / Sprite.SCALED_SIZE;
+            Cx2 = (int) (entity.getX() + entity.getW() - 1) / Sprite.SCALED_SIZE;
+            Cy1 = (entity.getY() + 1) / Sprite.SCALED_SIZE;
+            Cy2 = (entity.getY() + entity.getH() - 1) / Sprite.SCALED_SIZE;
         }
 
-        x1 = (int) (entity.getX() + entity.getValX()) / TILE_SIZE;
-        x2 = (int) (entity.getX() + entity.getValX() + entity.getW() - 1) / TILE_SIZE;
-        y1 = entity.getY() / TILE_SIZE;
-        y2 = (entity.getY() + entity.getH() - 1) / TILE_SIZE;
+        x1 = (int) (entity.getX() + entity.getValX()) / Sprite.SCALED_SIZE;
+        x2 = (int) (entity.getX() + entity.getValX() + entity.getW() - 1) / Sprite.SCALED_SIZE;
+        y1 = entity.getY() / Sprite.SCALED_SIZE;
+        y2 = (entity.getY() + entity.getH() - 1) / Sprite.SCALED_SIZE;
 
         //chech ngang
         if (entity.getValX() > 0) {
@@ -103,14 +101,14 @@ public class GameMap {
                 if ((MAP_ENTITIES[y1][x2] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                         || (MAP_ENTITIES[y1][x2] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                         || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
-                    if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < s2) {
+                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() < s2) {
                         entity.raiseVY();
                         entity.raiseVX();
                     }
                 } else if ((MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y2][x2] == '*')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y2][x2] == '#')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                    if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > s1) {
+                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) > s1) {
                         entity.lowVY();
                         entity.raiseVX();
                     }
@@ -127,14 +125,14 @@ public class GameMap {
                 if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#')
                         || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')
                         || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                    if (y1 * TILE_SIZE + TILE_SIZE - entity.getY() < s2) {
+                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() < s2) {
                         entity.raiseVY();
                         entity.lowVX();
                     }
                 } else if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y2][x1] == '*')
                         || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y2][x1] == '#')
                         || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                    if (y2 * TILE_SIZE + TILE_SIZE - (entity.getY() + entity.getH()) > s1) {
+                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) > s1) {
                         entity.lowVY();
                         entity.lowVX();
                     }
@@ -145,11 +143,11 @@ public class GameMap {
 
 
         //Check doc
-        x1 = entity.getX() / TILE_SIZE;
-        x2 = (entity.getX() + entity.getW()) / TILE_SIZE;
+        x1 = entity.getX() / Sprite.SCALED_SIZE;
+        x2 = (entity.getX() + entity.getW()) / Sprite.SCALED_SIZE;
 
-        y1 = (int) (entity.getY() + entity.getValY()) / TILE_SIZE;
-        y2 = (int) (entity.getY() + entity.getValY() + entity.getH() - 1) / TILE_SIZE;
+        y1 = (int) (entity.getY() + entity.getValY()) / Sprite.SCALED_SIZE;
+        y2 = (int) (entity.getY() + entity.getValY() + entity.getH() - 1) / Sprite.SCALED_SIZE;
 
         if (x1 >= 0 && y1 >= 0) {
             if (entity.getValY() > 0) {
@@ -166,14 +164,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y2][x1] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                                 || (MAP_ENTITIES[y2][x1] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                                 || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
-                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < s2) {
+                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() < s2) {
                                 entity.raiseVX();
                                 entity.raiseVX();
                             }
                         } else if ((MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x2] == '*')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x2] == '#')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > s1) {
+                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) > s1) {
                                 entity.lowVX();
                                 entity.raiseVX();
                             }
@@ -193,14 +191,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x2] == '*')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x2] == '#')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                            if (x2 * TILE_SIZE + TILE_SIZE - (entity.getX() + entity.getW()) > s1) {
+                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) > s1) {
                                 entity.lowVX();
                                 entity.lowVY();
                             }
                         } else if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#')
                                 || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')
                                 || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                            if (x1 * TILE_SIZE + TILE_SIZE - entity.getX() < s2) {
+                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() < s2) {
                                 entity.raiseVX();
                                 entity.lowVY();
                             }
