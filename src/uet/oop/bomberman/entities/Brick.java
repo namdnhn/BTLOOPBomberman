@@ -24,7 +24,6 @@ public class Brick extends Entity {
     }
 
     private boolean isBroken = false;
-    private int animationTime = 45;
 
     public Brick(int x, int y, Image img) {
         super(x, y, img);
@@ -36,6 +35,5 @@ public class Brick extends Entity {
 
     public void animation(int time) {
         img = Sprite.movingSprite(Sprite.brick_exploded, Sprite.brick_exploded1, Sprite.brick_exploded2, time, 9).getFxImage();
-        System.out.println("" + this.getX() / Sprite.SCALED_SIZE + ", " + this.getY() / Sprite.SCALED_SIZE);
     }
 }

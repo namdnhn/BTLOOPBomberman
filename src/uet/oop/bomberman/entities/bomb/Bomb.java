@@ -56,86 +56,76 @@ public class Bomb extends Entity {
 
     private List<Flame> flames = new ArrayList<>();
 
-    private boolean isBlockUp, isBlockDown, isBlockRight, isBlockLeft;
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         isBoom = false;
         isRemoved = false;
-        isBlockUp = false;
-        isBlockDown = false;
-        isBlockLeft = false;
-        isBlockRight = false;
-        for (int i = 0; i < area; i++) {
-            if (i < area - 1) {
-                // up
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '*'
-                    || BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '#') {
-                    isBlockUp = true;
-                }
-                if (!isBlockUp)
-                    flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.TOP));
+        addFlameUp();
+        addFlameDown();
+        addFlameRight();
+        addFlameLeft();
+    }
 
-                // down
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '*'
-                    || BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '#') {
-                    isBlockDown = true;
-                }
-                if (!isBlockDown)
-                    flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical.getFxImage(), Flame.FLAME_TYPES.DOWN));
-
-                // left
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '*'
-                    || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '#') {
-                    isBlockLeft = true;
-                }
-                if (!isBlockLeft)
-                    flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.LEFT));
-
-                // right
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '*'
-                    || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '#') {
-                    isBlockRight = true;
-                }
-                if (!isBlockRight)
-                    flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal.getFxImage(), Flame.FLAME_TYPES.RIGHT));
+    public void addFlameUp() {
+        int spread = -1;
+        while (spread >= -area && this.yCoordinate + spread >= 0
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#'
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '*') {
+            if (spread == -area) {
+                flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.TOPLAST));
+                break;
             } else {
-                // up
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[yUnit - i - 1][xUnit] == '#') {
-                    isBlockUp = true;
-                }
-                if (!isBlockUp)
-                    flames.add(new Flame(xUnit, yUnit - i - 1, Sprite.explosion_vertical_top_last.getFxImage(), Flame.FLAME_TYPES.TOPLAST));
-
-                // down
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[yUnit + i + 1][xUnit] == '#') {
-                    isBlockDown = true;
-                }
-                if (!isBlockDown)
-                    flames.add(new Flame(xUnit, yUnit + i + 1, Sprite.explosion_vertical_down_last.getFxImage(), Flame.FLAME_TYPES.DOWNLAST));
-
-                // left
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit - i - 1] == '#') {
-                    isBlockLeft = true;
-                }
-                if (!isBlockLeft)
-                    flames.add(new Flame(xUnit - i - 1, yUnit, Sprite.explosion_horizontal_left_last.getFxImage(), Flame.FLAME_TYPES.LEFTLAST));
-
-                // right
-                if (BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[yUnit][xUnit + i + 1] == '#') {
-                    isBlockRight = true;
-                }
-                if (!isBlockRight)
-                    flames.add(new Flame(xUnit + i + 1, yUnit, Sprite.explosion_horizontal_right_last.getFxImage(), Flame.FLAME_TYPES.RIGHTLAST));
+                flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.VER));
+                spread--;
             }
         }
     }
 
+    public void addFlameDown() {
+        int spread = 1;
+        while (spread <= area && this.yCoordinate + spread < BombermanGame.HEIGHT
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#'
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '*') {
+            if (spread == area) {
+                flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.DOWNLAST));
+                break;
+            } else {
+                flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.VER));
+                spread++;
+            }
+        }
+    }
 
+    public void addFlameRight() {
+        int spread = 1;
+        while (spread <= area && this.xCoordinate + spread < BombermanGame.WIDTH
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#'
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '*') {
+            if (spread == area) {
+                flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.RIGHTLAST));
+                break;
+            } else {
+                flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.HORI));
+                spread++;
+            }
+        }
+    }
+
+    public void addFlameLeft() {
+        int spread = -1;
+        while (spread >= -area && this.xCoordinate + spread >= 0
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#'
+                && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '*') {
+            if (spread == -area) {
+                flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.LEFTLAST));
+                break;
+            } else {
+                flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.HORI));
+                spread--;
+            }
+        }
+    }
     @Override
     public void update() {
         if (timeLimit > 0)
@@ -147,54 +137,68 @@ public class Bomb extends Entity {
                 timeEnd--;
             else {
                 setRemoved(true);
-                boolean _isBlockLeft = false;
-                boolean _isBlockRight = false;
-                boolean _isBlockUp  = false;
-                boolean _isBlockDown = false;
-                // remove breaks
-                for (int i = 0; i < area; i++) {
-                    for (Brick b : BombermanGame.Bricks) {
-                        // left
-                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE][this.x / Sprite.SCALED_SIZE - i - 1] == '#') {
-                            _isBlockLeft = true;
+                int spread = -1;
+                while (spread >= -area && this.yCoordinate + spread >= 0
+                        && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*') {
+                        for (Brick b : BombermanGame.Bricks) {
+                            if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
+                                b.setRemoved(true);
+                                BombermanGame.map.setMAP_ENTITY(b.getyCoordinate(), b.getxCoordinate(), ' ');
+                                break;
+                            }
                         }
-                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
-                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockLeft) {
-                            b.setRemoved(true);
-                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-                            _isBlockLeft = true;
-                        }
-                        // right
-                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE][this.x / Sprite.SCALED_SIZE + i + 1] == '#') {
-                            _isBlockRight = true;
-                        }
-                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1 + i
-                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE && !_isBlockRight) {
-                            b.setRemoved(true);
-                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-                            _isBlockRight = true;
-                        }
-                        // up
-                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE - i - 1][this.x / Sprite.SCALED_SIZE] == '#') {
-                            _isBlockUp = true;
-                        }
-                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i && !_isBlockUp) {
-                            b.setRemoved(true);
-                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-                            _isBlockUp = true;
-                        }
-                        // down
-                        if (BombermanGame.map.getMAP_ENTITIES()[this.y / Sprite.SCALED_SIZE + i + 1][this.x / Sprite.SCALED_SIZE] == '#') {
-                            _isBlockDown = true;
-                        }
-                        if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
-                                && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1 + i && !_isBlockDown) {
-                            b.setRemoved(true);
-                            BombermanGame.map.setMAP_ENTITY(b.getY() / Sprite.SCALED_SIZE, b.getX() / Sprite.SCALED_SIZE, ' ');
-                            _isBlockDown = true;
-                        }
+                        break;
                     }
+                    --spread;
+                }
+
+                spread = -1;
+                while (spread >= -area && this.xCoordinate + spread >= 0
+                        && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*') {
+                        for (Brick b : BombermanGame.Bricks) {
+                            if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
+                                b.setRemoved(true);
+                                BombermanGame.map.setMAP_ENTITY(b.getyCoordinate(), b.getxCoordinate(), ' ');
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    --spread;
+                }
+
+                spread = 1;
+                while (spread <= area && this.xCoordinate + spread < BombermanGame.WIDTH
+                        && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*') {
+                        for (Brick b : BombermanGame.Bricks) {
+                            if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
+                                b.setRemoved(true);
+                                BombermanGame.map.setMAP_ENTITY(b.getyCoordinate(), b.getxCoordinate(), ' ');
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    ++spread;
+                }
+
+                spread = 1;
+                while (spread <= area && this.yCoordinate + spread < BombermanGame.HEIGHT
+                        && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*') {
+                        for (Brick b : BombermanGame.Bricks) {
+                            if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
+                                b.setRemoved(true);
+                                BombermanGame.map.setMAP_ENTITY(b.getyCoordinate(), b.getxCoordinate(), ' ');
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    ++spread;
                 }
             }
         }
@@ -215,6 +219,9 @@ public class Bomb extends Entity {
             boolean _IsBlockDown = false;
 
             for (int i = 0; i < area && !_IsBlockUp; i++) {
+                if (BombermanGame.map.getMAP_ENTITIES()[this.getY() / Sprite.SCALED_SIZE - 1 - i][this.getX() / Sprite.SCALED_SIZE] == '#') {
+                    break;
+                }
                 for (Brick b : BombermanGame.Bricks) {
                     if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
                             && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE - 1 - i) {
@@ -224,6 +231,9 @@ public class Bomb extends Entity {
                 }
             }
             for (int i = 0; i < area && !_IsBlockDown; i++) {
+                if (BombermanGame.map.getMAP_ENTITIES()[this.getY() / Sprite.SCALED_SIZE + 1 + i][this.getX() / Sprite.SCALED_SIZE] == '#') {
+                    break;
+                }
                 for (Brick b : BombermanGame.Bricks) {
                     if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE
                             && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE + 1 + i) {
@@ -233,6 +243,9 @@ public class Bomb extends Entity {
                 }
             }
             for (int i = 0; i < area && !_IsBlockLeft; i++) {
+                if (BombermanGame.map.getMAP_ENTITIES()[this.getY() / Sprite.SCALED_SIZE][this.getX() / Sprite.SCALED_SIZE - 1 - i] == '#') {
+                    break;
+                }
                 for (Brick b : BombermanGame.Bricks) {
                     if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE - 1 - i
                             && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {
@@ -242,6 +255,9 @@ public class Bomb extends Entity {
                 }
             }
             for (int i = 0; i < area && !_IsBlockRight; i++) {
+                if (BombermanGame.map.getMAP_ENTITIES()[this.getY() / Sprite.SCALED_SIZE][this.getX() / Sprite.SCALED_SIZE + 1 + i] == '#') {
+                    break;
+                }
                 for (Brick b : BombermanGame.Bricks) {
                     if (b.getX() / Sprite.SCALED_SIZE == this.getX() / Sprite.SCALED_SIZE + 1 + i
                             && b.getY() / Sprite.SCALED_SIZE == this.getY() / Sprite.SCALED_SIZE) {

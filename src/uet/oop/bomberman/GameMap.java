@@ -24,7 +24,7 @@ public class GameMap {
     private char[][] MAP_ENTITIES = new char[BombermanGame.HEIGHT][BombermanGame.WIDTH];
 
     public void readMap() {
-        File file = new File("res/levels/Level1.txt");
+        File file = new File("res/levels/Level2.txt");
         try {
             Scanner sc = new Scanner(file);
             for (int i = 0; i < BombermanGame.HEIGHT; i++) {
@@ -91,7 +91,8 @@ public class GameMap {
         //chech ngang
         if (entity.getValX() > 0) {
             if (MAP_ENTITIES[y1][x2] == '*' || MAP_ENTITIES[y2][x2] == '*'
-                    || MAP_ENTITIES[y1][x2] == '#' || MAP_ENTITIES[y2][x2] == '#') {
+                    || MAP_ENTITIES[y1][x2] == '#' || MAP_ENTITIES[y2][x2] == '#'
+                    || MAP_ENTITIES[y1][x2] == 'b' || MAP_ENTITIES[y2][x2] == 'b') {
                 if (!entity.isWallPass()) {
                     entity.setValX(0);
                 }
@@ -116,7 +117,8 @@ public class GameMap {
             }
         } else if (entity.getValX() < 0) {
             if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y2][x1] == '*'
-                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y2][x1] == '#') {
+                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y2][x1] == '#'
+                    || MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y2][x1] == 'b') {
                 if (!entity.isWallPass()) {
                     entity.setValX(0);
                 }
@@ -152,13 +154,15 @@ public class GameMap {
         if (x1 >= 0 && y1 >= 0) {
             if (entity.getValY() > 0) {
                 if (MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*'
-                    || MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#') {
+                    || MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#'
+                        || MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b') {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
                     }
                 }
                 if (MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#'
-                        || MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*') {
+                        || MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*'
+                        || MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b') {
                     if (entity instanceof Bomber) {
 
                         if ((MAP_ENTITIES[y2][x1] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
@@ -180,13 +184,15 @@ public class GameMap {
                 }
             } else if (entity.getValY() < 0) {
                 if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*'
-                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#') {
+                    || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#'
+                    || MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y1][x2] == 'b') {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
                     }
                 }
                 if (MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#'
-                        || MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*') {
+                        || MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*'
+                        || MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y1][x2] == 'b') {
                     if (entity instanceof Bomber) {
                         if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x2] == '*')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x2] == '#')
