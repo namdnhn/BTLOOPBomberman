@@ -56,6 +56,9 @@ public class Bomb extends Entity {
 
     private List<Flame> flames = new ArrayList<>();
 
+    public KillingArea verticalKillingArea = new KillingArea(this);
+    public KillingArea horizontalKillingArea = new KillingArea(this);
+
 
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -74,10 +77,12 @@ public class Bomb extends Entity {
                 && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '*') {
             if (spread == -area) {
                 flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.TOPLAST));
+                verticalKillingArea.setY_up(verticalKillingArea.y_up - Sprite.SCALED_SIZE);
                 break;
             } else {
                 flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.VER));
-                spread--;
+                verticalKillingArea.setY_up(verticalKillingArea.y_up - Sprite.SCALED_SIZE);
+                --spread;
             }
         }
     }
@@ -89,10 +94,12 @@ public class Bomb extends Entity {
                 && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '*') {
             if (spread == area) {
                 flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.DOWNLAST));
+                verticalKillingArea.setY_down(verticalKillingArea.y_down + Sprite.SCALED_SIZE);
                 break;
             } else {
                 flames.add(new Flame(this.xCoordinate, this.yCoordinate + spread, Flame.FLAME_TYPES.VER));
-                spread++;
+                verticalKillingArea.setY_down(verticalKillingArea.y_down + Sprite.SCALED_SIZE);
+                ++spread;
             }
         }
     }
@@ -104,10 +111,12 @@ public class Bomb extends Entity {
                 && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '*') {
             if (spread == area) {
                 flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.RIGHTLAST));
+                horizontalKillingArea.setX_right(horizontalKillingArea.x_right + Sprite.SCALED_SIZE);
                 break;
             } else {
                 flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.HORI));
-                spread++;
+                horizontalKillingArea.setX_right(horizontalKillingArea.x_right + Sprite.SCALED_SIZE);
+                ++spread;
             }
         }
     }
@@ -119,10 +128,12 @@ public class Bomb extends Entity {
                 && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '*') {
             if (spread == -area) {
                 flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.LEFTLAST));
+                horizontalKillingArea.setX_left(horizontalKillingArea.x_left - Sprite.SCALED_SIZE);
                 break;
             } else {
                 flames.add(new Flame(this.xCoordinate + spread, this.yCoordinate, Flame.FLAME_TYPES.HORI));
-                spread--;
+                horizontalKillingArea.setX_left(horizontalKillingArea.x_left - Sprite.SCALED_SIZE);
+                --spread;
             }
         }
     }
@@ -133,7 +144,7 @@ public class Bomb extends Entity {
         else {
             if (!isBoom)
                 exploding();
-            else if (timeEnd > 0)
+            if (timeEnd > 0)
                 timeEnd--;
             else {
                 setRemoved(true);
@@ -272,6 +283,6 @@ public class Bomb extends Entity {
 
     public void exploding() {
         setBoom(true);
-        BombermanGame.map.setMAP_ENTITY(this.y / Sprite.SCALED_SIZE, this.x / Sprite.SCALED_SIZE, ' ');
+        BombermanGame.map.setMAP_ENTITY(this.getyCoordinate(), this.getxCoordinate(), ' ');
     }
 }

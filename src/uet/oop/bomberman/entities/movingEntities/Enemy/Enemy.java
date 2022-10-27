@@ -8,6 +8,13 @@ import uet.oop.bomberman.graphics.Sprite;
 public abstract class Enemy extends movingEntity {
     protected boolean isDead;
 
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    protected boolean removed;
+    protected int reversedTime = 30;
+
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         this.x = xUnit * Sprite.SCALED_SIZE;

@@ -17,11 +17,8 @@ import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.movingEntities.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BombermanGame extends Application {
 
@@ -46,7 +43,7 @@ public class BombermanGame extends Application {
         Application.launch(BombermanGame.class);
     }
 
-    Bomber bomberman;
+    public static Bomber bomberman;
     @Override
     public void start(Stage stage) {
         // Tao Canvas
@@ -130,9 +127,10 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        Bomber.bombs.forEach(Bomb::update);
         movingEntities.forEach(movingEntity::update);
         enemies.forEach(Enemy::update);
-        bomberman.bombs.forEach(Bomb::update);
+        enemies.removeIf(Enemy::isRemoved);
         Bricks.removeIf(Brick::isRemoved);
     }
 

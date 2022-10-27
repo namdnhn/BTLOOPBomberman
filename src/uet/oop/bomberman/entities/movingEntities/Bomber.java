@@ -13,6 +13,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.GameMap;
@@ -69,7 +70,7 @@ public class Bomber extends movingEntity {
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
         bombLimit = 1;
-        heart = 1;
+        heart = 2;
     }
 
     public void placeBomb(int x, int y) {
@@ -105,19 +106,13 @@ public class Bomber extends movingEntity {
         if (goUp) {
             valY -= SPEED;
             animation();
-        }
-
-        else if (goDown) {
+        } else if (goDown) {
             valY += SPEED;
             animation();
-        }
-
-        else if (goLeft) {
+        } else if (goLeft) {
             valX -= SPEED;
             animation();
-        }
-
-        else if (goRight) {
+        } else if (goRight) {
             valX += SPEED;
             animation();
         }
@@ -127,14 +122,36 @@ public class Bomber extends movingEntity {
         y += valY;
     }
 
+    public void kill() {
+        for (Enemy e : BombermanGame.enemies) {
+            if (checkCollision(e)) {
+                setHeart(getHeart() - 1);
+            }
+        }
+        for (Bomb b : bombs) {
+            if (b.isBoom() && checkKilled(b.verticalKillingArea)) {
+                setHeart(getHeart() - 1);
+            }
+            if (b.isBoom() && checkKilled(b.horizontalKillingArea)) {
+                setHeart(getHeart() - 1);
+            }
+        }
+    }
+
     @Override
     public void update() {
-        move();
+        if(getHeart() > 0) {
+            move();
+            kill();
+        }
+        else {
+            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, time, 9).getFxImage();
+            time++;
+        }
         bombs.removeIf(Bomb::isRemoved);
     }
 
     /** Moving Key. */
-
     @Override
     public void animation() {
         switch (status) {

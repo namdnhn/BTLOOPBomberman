@@ -2,12 +2,12 @@ package uet.oop.bomberman.entities.movingEntities.Enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloom extends Enemy {
-
-    private boolean stuck = false;
 
     public Balloom(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -35,7 +35,6 @@ public class Balloom extends Enemy {
         }
     }
     private boolean goUp, goDown, goLeft, goRight;
-    private int timeMoveTile = 8;
     private boolean canMove = true;
     @Override
     public void move() {
@@ -99,11 +98,24 @@ public class Balloom extends Enemy {
         y += valY;
     }
 
+    public void kill() {
+        for (Bomb b : Bomber.bombs) {
+            if (b.isBoom() && (checkKilled(b.verticalKillingArea) || checkKilled(b.horizontalKillingArea))) {
+                isDead = true;
+            }
+        }
+    }
     @Override
     public void update() {
         if(!isDead) {
             move();
+            kill();
         }
+        else if (reversedTime > 0) {
+            img = Sprite.balloom_dead.getFxImage();
+            reversedTime--;
+        } else
+            removed = true;
         animation();
     }
 }
