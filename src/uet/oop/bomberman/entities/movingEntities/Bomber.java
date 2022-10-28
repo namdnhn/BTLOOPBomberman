@@ -70,7 +70,7 @@ public class Bomber extends movingEntity {
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
         bombLimit = 1;
-        heart = 2;
+        heart = 1;
     }
 
     public void placeBomb(int x, int y) {
@@ -90,6 +90,9 @@ public class Bomber extends movingEntity {
             Bomb bomb = new Bomb(newX, newY, Sprite.bomb.getFxImage());
             bombs.add(bomb);
             BombermanGame.map.setMAP_ENTITY(newY, newX, 'b');
+            if (this.checkInBomb(bomb)) {
+                setInBomb(true);
+            }
             for (int i = 0; i < BombermanGame.HEIGHT; i++) {
                 for (int j = 0; j < BombermanGame.WIDTH; j++) {
                     System.out.print(BombermanGame.map.getMAP_ENTITIES()[i][j]);
@@ -141,8 +144,11 @@ public class Bomber extends movingEntity {
     @Override
     public void update() {
         if(getHeart() > 0) {
+            for (Bomb b : Bomber.bombs)
+                if (!this.checkInBomb(b))
+                    setInBomb(false);
             move();
-            kill();
+//            kill();
         }
         else {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, time, 9).getFxImage();
@@ -185,5 +191,4 @@ public class Bomber extends movingEntity {
             }
         }
     }
-
 }

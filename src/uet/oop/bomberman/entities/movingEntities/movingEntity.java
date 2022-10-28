@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.KillingArea;
 import uet.oop.bomberman.graphics.Sprite;
@@ -77,8 +78,18 @@ public abstract class movingEntity {
         return h;
     }
 
-    protected int w; // chieu rong nhan vat.
-    protected int h; // chieu cao nhan vat.
+    protected int w;
+    protected int h;
+
+    public void setInBomb(boolean inBomb) {
+        this.inBomb = inBomb;
+    }
+
+    public boolean isInBomb() {
+        return inBomb;
+    }
+
+    protected boolean inBomb;
 
     public int getCurrX1() {
         return getX() / Sprite.SCALED_SIZE;
@@ -132,13 +143,11 @@ public abstract class movingEntity {
 
         if (left1 <= left2 && right1 >= left2) {
             if (up1 <= up2 && down1 >= up2)          return true;
-            else if (up1 >= up2 && down2 >= up1)          return true;
-            else return false;
+            else return up1 >= up2 && down2 >= up1;
         }
         else if (left2 <= left1 && right2 >= left1) {
             if (up1 <= up2 && down1 >= up2) return true;
-            else if (up1 >= up2 && down2 >= up1) return true;
-            else return false;
+            else return up1 >= up2 && down2 >= up1;
         }
         else return false;
     }
@@ -156,19 +165,35 @@ public abstract class movingEntity {
 
         if (left1 <= left2 && right1 >= left2) {
             if (up1 <= up2 && down1 >= up2)          return true;
-            else if (up1 >= up2 && down2 >= up1)          return true;
-            else return false;
+            else return up1 >= up2 && down2 >= up1;
         }
         else if (left2 <= left1 && right2 >= left1) {
             if (up1 <= up2 && down1 >= up2) return true;
-            else if (up1 >= up2 && down2 >= up1) return true;
-            else return false;
+            else return up1 >= up2 && down2 >= up1;
         }
         else return false;
     }
 
-    public void killing (List<Flame> flames) {
+    public boolean checkInBomb(Bomb object) {
+        int left1, left2, right1, right2, up1, up2, down1, down2;
+        left1 = this.getX() + 2;
+        right1 = this.getX() + this.getW() - 2;
+        up1 = this.getY() + 2;
+        down1 = this.getY() + this.getH() - 2;
+        left2 = object.getX() + 2;
+        right2 = object.getX() + Sprite.SCALED_SIZE - 2;
+        up2 = object.getY() + 2;
+        down2 = object.getY() + Sprite.SCALED_SIZE - 2;
 
+        if (left1 <= left2 && right1 >= left2) {
+            if (up1 <= up2 && down1 >= up2)          return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else if (left2 <= left1 && right2 >= left1) {
+            if (up1 <= up2 && down1 >= up2) return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else return false;
     }
 
     public void render(GraphicsContext gc) {

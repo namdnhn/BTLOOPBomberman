@@ -15,6 +15,7 @@ public class Balloom extends Enemy {
         SPEED = 1;
         w = 31;
         h = 31;
+        inBomb = false;
     }
 
     @Override

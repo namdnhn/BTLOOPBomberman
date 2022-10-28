@@ -38,7 +38,7 @@ public class Bomb extends Entity {
 
     private boolean isBoom;
 
-    private int timeEnd = 45;
+    private int timeEnd = 30;
 
     public int getArea() {
         return area;

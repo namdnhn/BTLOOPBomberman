@@ -43,10 +43,10 @@ public class KillingArea {
     protected int y_down;
 
     public KillingArea(Bomb bomb) {
-        this.x_left = bomb.getX();
-        this.x_right = bomb.getX() + Sprite.SCALED_SIZE;
-        this.y_up = bomb.getY();
-        this.y_down = bomb.getY() + Sprite.SCALED_SIZE;
+        this.x_left = bomb.getX() - 5;
+        this.x_right = bomb.getX() + Sprite.SCALED_SIZE - 5;
+        this.y_up = bomb.getY() - 5;
+        this.y_down = bomb.getY() + Sprite.SCALED_SIZE - 5;
     }
 
 
