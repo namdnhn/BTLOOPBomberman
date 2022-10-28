@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Items.BombItem;
+import uet.oop.bomberman.entities.Items.FlameItem;
 import uet.oop.bomberman.entities.Items.Item;
 import uet.oop.bomberman.entities.Items.SpeedItem;
 import uet.oop.bomberman.entities.bomb.Bomb;
@@ -69,6 +70,8 @@ public class GameMap {
                     Item item;
                     if (a <= 0.5) {
                         item = new SpeedItem(i, j, Sprite.powerup_speed.getFxImage());
+                    } else if (a <= 0.75) {
+                        item = new FlameItem(i, j, Sprite.powerup_flames.getFxImage());
                     } else {
                         item = new BombItem(i, j, Sprite.powerup_bombs.getFxImage());
                     }

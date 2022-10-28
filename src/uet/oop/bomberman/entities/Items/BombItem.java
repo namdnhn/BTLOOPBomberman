@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.Items;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 
 public class BombItem extends Item{
@@ -14,6 +15,6 @@ public class BombItem extends Item{
 
     @Override
     public void update() {
-        Bomber.set_area(Bomber.get_area() + 1);
+        BombermanGame.bomberman.setBombLimit(BombermanGame.bomberman.getBombLimit() + 1);
     }
 }

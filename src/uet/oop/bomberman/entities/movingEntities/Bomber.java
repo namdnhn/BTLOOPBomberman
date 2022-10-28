@@ -41,6 +41,10 @@ public class Bomber extends movingEntity {
         this.bombLimit = bombLimit;
     }
 
+    public int getBombLimit() {
+        return bombLimit;
+    }
+
     private int bombLimit;
 
     public void setGoUp(boolean goUp) {
