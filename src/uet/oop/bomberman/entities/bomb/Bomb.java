@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 import javax.sound.midi.Soundbank;
@@ -48,13 +49,13 @@ public class Bomb extends Entity {
         this.area = area;
     }
 
-    private int area = 3;
+    private int area;
 
     public List<Flame> getFlames() {
         return flames;
     }
 
-    private List<Flame> flames = new ArrayList<>();
+    private final List<Flame> flames = new ArrayList<>();
 
     public KillingArea verticalKillingArea = new KillingArea(this);
     public KillingArea horizontalKillingArea = new KillingArea(this);
@@ -64,6 +65,7 @@ public class Bomb extends Entity {
         super(xUnit, yUnit, img);
         isBoom = false;
         isRemoved = false;
+        area = Bomber.get_area();
         addFlameUp();
         addFlameDown();
         addFlameRight();
@@ -151,7 +153,8 @@ public class Bomb extends Entity {
                 int spread = -1;
                 while (spread >= -area && this.yCoordinate + spread >= 0
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
-                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
                                 b.setRemoved(true);
@@ -167,7 +170,8 @@ public class Bomb extends Entity {
                 spread = -1;
                 while (spread >= -area && this.xCoordinate + spread >= 0
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
-                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
                                 b.setRemoved(true);
@@ -183,7 +187,8 @@ public class Bomb extends Entity {
                 spread = 1;
                 while (spread <= area && this.xCoordinate + spread < BombermanGame.WIDTH
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
-                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
                                 b.setRemoved(true);
@@ -199,7 +204,8 @@ public class Bomb extends Entity {
                 spread = 1;
                 while (spread <= area && this.yCoordinate + spread < BombermanGame.HEIGHT
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
-                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*') {
+                    if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*'
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
                                 b.setRemoved(true);

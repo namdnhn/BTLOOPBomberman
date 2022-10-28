@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Grass;
+import uet.oop.bomberman.entities.Items.Item;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
@@ -37,6 +38,7 @@ public class BombermanGame extends Application {
     public static List<Wall> Wall = new ArrayList<>();
 
     public static List<Enemy> enemies = new ArrayList<>();
+    public static List<Item> items = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -132,11 +134,13 @@ public class BombermanGame extends Application {
         enemies.forEach(Enemy::update);
         enemies.removeIf(Enemy::isRemoved);
         Bricks.removeIf(Brick::isRemoved);
+        items.removeIf(Item::isHasGot);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grassEntities.forEach(g -> g.render(gc));
+        items.forEach(g -> g.render(gc));
         Bricks.forEach(g -> g.render(gc));
         Wall.forEach(g -> g.render(gc));
         movingEntities.forEach(g -> g.render(gc));

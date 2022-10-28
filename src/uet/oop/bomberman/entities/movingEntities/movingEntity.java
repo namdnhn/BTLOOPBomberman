@@ -21,6 +21,14 @@ public abstract class movingEntity {
         return y;
     }
 
+    public int getSPEED() {
+        return SPEED;
+    }
+
+    public void setSPEED(int SPEED) {
+        this.SPEED = SPEED;
+    }
+
     protected int SPEED;
 
     public void setX(int x) {

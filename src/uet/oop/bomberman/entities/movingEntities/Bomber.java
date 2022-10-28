@@ -11,8 +11,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.entities.Items.Item;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.bomb.KillingArea;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
@@ -59,6 +61,16 @@ public class Bomber extends movingEntity {
 
     private boolean goUp, goDown, goLeft, goRight;
 
+    public static int get_area() {
+        return _area;
+    }
+
+    public static void set_area(int _area) {
+        Bomber._area = _area;
+    }
+
+    private static int _area;
+
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -71,6 +83,7 @@ public class Bomber extends movingEntity {
         time = 0;
         bombLimit = 1;
         heart = 1;
+        _area = 1;
     }
 
     public void placeBomb(int x, int y) {
@@ -98,6 +111,32 @@ public class Bomber extends movingEntity {
                     System.out.print(BombermanGame.map.getMAP_ENTITIES()[i][j]);
                 }
                 System.out.print("\n");
+            }
+        }
+    }
+
+    public void gotItem(Item item) {
+        int left1, left2, right1, right2, up1, up2, down1, down2;
+        left1 = this.getX();
+        right1 = this.getX() + this.getW();
+        up1 = this.getY();
+        down1 = this.getY() + this.getH();
+        left2 = item.getX();
+        right2 = item.getX() + Sprite.SCALED_SIZE;
+        up2 = item.getY();
+        down2 = item.getY() + Sprite.SCALED_SIZE;
+
+        boolean b = (up1 <= up2 && down1 >= up2) || (up1 >= up2 && down2 >= up1);
+        if (left1 <= left2 && right1 >= left2) {
+            if (b) {
+                item.update();
+                item.setHasGot(true);
+            }
+        }
+        else if (left2 <= left1 && right2 >= left1) {
+            if (b) {
+                item.update();
+                item.setHasGot(true);
             }
         }
     }
@@ -147,8 +186,10 @@ public class Bomber extends movingEntity {
             for (Bomb b : Bomber.bombs)
                 if (!this.checkInBomb(b))
                     setInBomb(false);
+            for (Item i : BombermanGame.items)
+                gotItem(i);
             move();
-//            kill();
+            kill();
         }
         else {
             img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, time, 9).getFxImage();
