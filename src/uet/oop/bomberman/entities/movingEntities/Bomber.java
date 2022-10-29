@@ -127,10 +127,10 @@ public class Bomber extends movingEntity {
         right1 = this.getX() + this.getW();
         up1 = this.getY();
         down1 = this.getY() + this.getH();
-        left2 = item.getX();
-        right2 = item.getX() + Sprite.SCALED_SIZE;
-        up2 = item.getY();
-        down2 = item.getY() + Sprite.SCALED_SIZE;
+        left2 = item.getX() + 2;
+        right2 = item.getX() + Sprite.SCALED_SIZE - 2;
+        up2 = item.getY() + 2;
+        down2 = item.getY() + Sprite.SCALED_SIZE - 2;
 
         boolean b = (up1 <= up2 && down1 >= up2) || (up1 >= up2 && down2 >= up1);
         if (left1 <= left2 && right1 >= left2) {

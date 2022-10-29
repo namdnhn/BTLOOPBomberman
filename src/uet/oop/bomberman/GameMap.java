@@ -8,6 +8,7 @@ import uet.oop.bomberman.entities.Items.SpeedItem;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Balloom;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
+import uet.oop.bomberman.entities.movingEntities.Enemy.Oneal;
 import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
@@ -65,6 +66,13 @@ public class GameMap {
                 } else if (MAP_ENTITIES[j][i] == '1') {
                     Enemy enemy = new Balloom(i, j, Sprite.balloom_right1.getFxImage());
                     BombermanGame.enemies.add(enemy);
+                } else if (MAP_ENTITIES[j][i] == '2') {
+                    Enemy enemy = new Oneal(i, j, Sprite.oneal_right1.getFxImage());
+                    BombermanGame.enemies.add(enemy);
+                } else if (MAP_ENTITIES[j][i] == 'x') {
+                    BombermanGame.portal = new Portal(i, j, Sprite.portal.getFxImage());
+                    Brick object = new Brick(i, j, Sprite.brick.getFxImage());
+                    BombermanGame.Bricks.add(object);
                 } else if (MAP_ENTITIES[j][i] == 'i') {
                     double a = Math.random();
                     Item item;
@@ -101,6 +109,7 @@ public class GameMap {
             if (MAP_ENTITIES[y1][x2] == '*' || MAP_ENTITIES[y2][x2] == '*'
                     || MAP_ENTITIES[y1][x2] == '#' || MAP_ENTITIES[y2][x2] == '#'
                     || MAP_ENTITIES[y1][x2] == 'i' || MAP_ENTITIES[y2][x2] == 'i'
+                    || MAP_ENTITIES[y1][x2] == 'x' || MAP_ENTITIES[y2][x2] == 'x'
                     || (!entity.isInBomb() && (MAP_ENTITIES[y1][x2] == 'b' || MAP_ENTITIES[y2][x2] == 'b'))) {
                 if (!entity.isWallPass()) {
                     entity.setValX(0);
@@ -128,6 +137,7 @@ public class GameMap {
             if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y2][x1] == '*'
                     || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y2][x1] == '#'
                     || MAP_ENTITIES[y1][x1] == 'i' || MAP_ENTITIES[y2][x1] == 'i'
+                    || MAP_ENTITIES[y1][x1] == 'x' || MAP_ENTITIES[y2][x1] == 'x'
                     || (!entity.isInBomb() && (MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y2][x1] == 'b'))) {
                 if (!entity.isWallPass()) {
                     entity.setValX(0);
@@ -165,8 +175,9 @@ public class GameMap {
             if (entity.getValY() > 0) {
                 if (MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*'
                     || MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#'
-                        || MAP_ENTITIES[y2][x1] == 'i' || MAP_ENTITIES[y2][x2] == 'i'
-                        || (!entity.isInBomb() && (MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b'))) {
+                    || MAP_ENTITIES[y2][x1] == 'i' || MAP_ENTITIES[y2][x2] == 'i'
+                    || MAP_ENTITIES[y2][x1] == 'x' || MAP_ENTITIES[y2][x2] == 'x'
+                    || (!entity.isInBomb() && (MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b'))) {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
                     }
@@ -174,6 +185,7 @@ public class GameMap {
                 if (MAP_ENTITIES[y2][x1] == '#' || MAP_ENTITIES[y2][x2] == '#'
                         || MAP_ENTITIES[y2][x1] == '*' || MAP_ENTITIES[y2][x2] == '*'
                         || MAP_ENTITIES[y2][x1] == 'i' || MAP_ENTITIES[y2][x2] == 'i'
+                        || MAP_ENTITIES[y2][x1] == 'x' || MAP_ENTITIES[y2][x2] == 'x'
                         || (!entity.isInBomb() && (MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b'))) {
                     if (entity instanceof Bomber) {
 
@@ -198,6 +210,7 @@ public class GameMap {
                 if (MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*'
                     || MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#'
                     || MAP_ENTITIES[y1][x1] == 'i' || MAP_ENTITIES[y1][x2] == 'i'
+                    || MAP_ENTITIES[y1][x1] == 'x' || MAP_ENTITIES[y1][x2] == 'x'
                     || (!entity.isInBomb() && (MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y1][x2] == 'b'))) {
                     if (!entity.isWallPass()) {
                         entity.setValY(0);
@@ -206,6 +219,7 @@ public class GameMap {
                 if (MAP_ENTITIES[y1][x1] == '#' || MAP_ENTITIES[y1][x2] == '#'
                         || MAP_ENTITIES[y1][x1] == '*' || MAP_ENTITIES[y1][x2] == '*'
                         || MAP_ENTITIES[y1][x1] == 'i' || MAP_ENTITIES[y1][x2] == 'i'
+                        || MAP_ENTITIES[y1][x1] == 'x' || MAP_ENTITIES[y1][x2] == 'x'
                         || (!entity.isInBomb() && (MAP_ENTITIES[y1][x1] == 'b' || MAP_ENTITIES[y1][x2] == 'b'))) {
                     if (entity instanceof Bomber) {
                         if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x2] == '*')

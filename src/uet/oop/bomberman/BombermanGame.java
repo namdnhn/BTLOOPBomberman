@@ -39,6 +39,7 @@ public class BombermanGame extends Application {
 
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Item> items = new ArrayList<>();
+    public static Portal portal;
 
 
     public static void main(String[] args) {
@@ -135,11 +136,13 @@ public class BombermanGame extends Application {
         enemies.removeIf(Enemy::isRemoved);
         Bricks.removeIf(Brick::isRemoved);
         items.removeIf(Item::isHasGot);
+        portal.update();
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grassEntities.forEach(g -> g.render(gc));
+        portal.render(gc);
         items.forEach(g -> g.render(gc));
         Bricks.forEach(g -> g.render(gc));
         Wall.forEach(g -> g.render(gc));

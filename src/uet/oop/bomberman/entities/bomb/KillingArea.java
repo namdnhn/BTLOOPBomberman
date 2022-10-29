@@ -2,8 +2,6 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.List;
-
 public class KillingArea {
     public int getX_left() {
         return x_left;

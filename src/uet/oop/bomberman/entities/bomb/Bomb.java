@@ -143,7 +143,8 @@ public class Bomb extends Entity {
                 while (spread >= -area && this.yCoordinate + spread >= 0
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
                     if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i') {
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i'
+                            || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'x') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
                                 b.setRemoved(true);
@@ -160,7 +161,8 @@ public class Bomb extends Entity {
                 while (spread >= -area && this.xCoordinate + spread >= 0
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
                     if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i') {
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i'
+                            || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'x') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
                                 b.setRemoved(true);
@@ -177,7 +179,8 @@ public class Bomb extends Entity {
                 while (spread <= area && this.xCoordinate + spread < BombermanGame.WIDTH
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] != '#') {
                     if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i') {
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'i'
+                            || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate][this.xCoordinate + spread] == 'x') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate + spread && b.getyCoordinate() == this.yCoordinate) {
                                 b.setRemoved(true);
@@ -194,7 +197,8 @@ public class Bomb extends Entity {
                 while (spread <= area && this.yCoordinate + spread < BombermanGame.HEIGHT
                         && BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] != '#') {
                     if (BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == '*'
-                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i') {
+                        || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'i'
+                            || BombermanGame.map.getMAP_ENTITIES()[this.yCoordinate + spread][this.xCoordinate] == 'x') {
                         for (Brick b : BombermanGame.Bricks) {
                             if (b.getxCoordinate() == this.xCoordinate && b.getyCoordinate() == this.yCoordinate + spread) {
                                 b.setRemoved(true);
