@@ -18,6 +18,10 @@ import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.movingEntities.*;
 
+import javax.print.attribute.standard.Media;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +52,7 @@ public class BombermanGame extends Application {
 
     public static Bomber bomberman;
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws UnsupportedAudioFileException, IOException {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -72,8 +76,9 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-
         createMap();
+
+        Sound.play("res/sounds/backSound.wav");
 
         bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
         movingEntities.add(bomberman);

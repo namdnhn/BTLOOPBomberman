@@ -6,6 +6,8 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.KillingArea;
 import uet.oop.bomberman.graphics.Sprite;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.List;
 
 public abstract class movingEntity {

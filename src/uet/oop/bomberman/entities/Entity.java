@@ -7,6 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
+
 public abstract class Entity {
     public int getX() {
         return x;

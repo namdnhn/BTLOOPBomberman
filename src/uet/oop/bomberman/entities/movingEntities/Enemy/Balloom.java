@@ -99,13 +99,6 @@ public class Balloom extends Enemy {
         y += valY;
     }
 
-    public void kill() {
-        for (Bomb b : Bomber.bombs) {
-            if (b.isBoom() && (checkKilled(b.verticalKillingArea) || checkKilled(b.horizontalKillingArea))) {
-                isDead = true;
-            }
-        }
-    }
     @Override
     public void update() {
         if(!isDead) {

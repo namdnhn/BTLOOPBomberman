@@ -39,6 +39,15 @@ public class Oneal extends Enemy {
 
     @Override
     public void update() {
-
+        if(!isDead) {
+            move();
+            kill();
+        }
+        else if (reversedTime > 0) {
+            img = Sprite.oneal_dead.getFxImage();
+            reversedTime--;
+        } else
+            removed = true;
+//        animation();
     }
 }

@@ -2,11 +2,14 @@ package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -304,6 +307,7 @@ public class Bomb extends Entity {
 
     public void exploding() {
         setBoom(true);
+        Sound.play("res/sounds/bombExplode.wav");
         BombermanGame.map.setMAP_ENTITY(this.getyCoordinate(), this.getxCoordinate(), ' ');
         for (int i = 0; i < Bomber.bombs.size(); ++i) {
             if (!(Bomber.bombs.get(i) == this)) {
