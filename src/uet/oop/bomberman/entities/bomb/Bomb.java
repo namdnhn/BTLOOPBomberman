@@ -1,6 +1,5 @@
 package uet.oop.bomberman.entities.bomb;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Brick;
@@ -8,8 +7,6 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +38,7 @@ public class Bomb extends Entity {
 
     private int timeEnd = 30;
 
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    private int area;
+    private final int area;
 
     public List<Flame> getFlames() {
         return flames;
@@ -287,8 +276,41 @@ public class Bomb extends Entity {
         time++;
     }
 
+    public boolean inKillingArea(KillingArea killingArea) {
+        int left1, left2, right1, right2, up1, up2, down1, down2;
+        left1 = this.getX();
+        right1 = this.getX() + Sprite.SCALED_SIZE;
+        up1 = this.getY();
+        down1 = this.getY() + Sprite.SCALED_SIZE;
+        left2 = killingArea.getX_left();
+        right2 = killingArea.getX_right();
+        up2 = killingArea.getY_up();
+        down2 = killingArea.getY_down();
+
+        if (left1 <= left2 && right1 >= left2) {
+            if (up1 <= up2 && down1 >= up2)          return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else if (left2 <= left1 && right2 >= left1) {
+            if (up1 <= up2 && down1 >= up2) return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else return false;
+    }
+
     public void exploding() {
         setBoom(true);
         BombermanGame.map.setMAP_ENTITY(this.getyCoordinate(), this.getxCoordinate(), ' ');
+        for (int i = 0; i < Bomber.bombs.size(); ++i) {
+            if (!(Bomber.bombs.get(i) == this)) {
+                if (Bomber.bombs.get(i).inKillingArea(this.horizontalKillingArea)
+                        || Bomber.bombs.get(i).inKillingArea(this.verticalKillingArea)) {
+                    BombermanGame.map.setMAP_ENTITY(Bomber.bombs.get(i).getyCoordinate(),
+                            Bomber.bombs.get(i).getxCoordinate(), ' ');
+                    Bomber.bombs.get(i).setBoom(true);
+                }
+            }
+        }
+
     }
 }

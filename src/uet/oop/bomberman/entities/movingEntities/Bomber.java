@@ -85,7 +85,7 @@ public class Bomber extends movingEntity {
         w = Sprite.SCALED_SIZE * 5 / 6;
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
-        bombLimit = 1;
+        bombLimit = 3;
         heart = 1;
         _area = 1;
     }
@@ -104,17 +104,19 @@ public class Bomber extends movingEntity {
             } else {
                 newY = this.y / Sprite.SCALED_SIZE + 1;
             }
-            Bomb bomb = new Bomb(newX, newY, Sprite.bomb.getFxImage());
-            bombs.add(bomb);
-            BombermanGame.map.setMAP_ENTITY(newY, newX, 'b');
-            if (this.checkInBomb(bomb)) {
-                setInBomb(true);
-            }
-            for (int i = 0; i < BombermanGame.HEIGHT; i++) {
-                for (int j = 0; j < BombermanGame.WIDTH; j++) {
-                    System.out.print(BombermanGame.map.getMAP_ENTITIES()[i][j]);
+            if (BombermanGame.map.getMAP_ENTITIES()[newY][newX] != 'b') {
+                Bomb bomb = new Bomb(newX, newY, Sprite.bomb.getFxImage());
+                bombs.add(bomb);
+                BombermanGame.map.setMAP_ENTITY(newY, newX, 'b');
+                if (this.checkInBomb(bomb)) {
+                    setInBomb(true);
                 }
-                System.out.print("\n");
+                for (int i = 0; i < BombermanGame.HEIGHT; i++) {
+                    for (int j = 0; j < BombermanGame.WIDTH; j++) {
+                        System.out.print(BombermanGame.map.getMAP_ENTITIES()[i][j]);
+                    }
+                    System.out.print("\n");
+                }
             }
         }
     }
