@@ -7,6 +7,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
@@ -17,15 +19,16 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.Bomber;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.entities.movingEntities.*;
+import uet.oop.bomberman.menu.BackGroundMenu;
 
-import javax.print.attribute.standard.Media;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BombermanGame extends Application {
 
@@ -36,6 +39,8 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static Scene scene;
     public int LEVEL;
+    public static Group root = new Group();
+    private BackGroundMenu menu = new BackGroundMenu();
 
     // list cac doi tuong tren map
     public static List<Grass> grassEntities = new ArrayList<>();
@@ -46,6 +51,22 @@ public class BombermanGame extends Application {
     public static List<Item> items = new ArrayList<>();
     public static Portal portal;
     public static Bomber bomberman;
+    private static final File resource = new File("res/sounds/backSound.wav");
+    public static MediaPlayer a = new MediaPlayer(new Media(resource.toURI().toString()));
+
+    public boolean isRunning() {
+        return Running;
+    }
+
+    public static void setRunning(boolean running) {
+        Running = running;
+    }
+
+    private static boolean Running = false;
+    private boolean isPlay = false;
+
+    public BombermanGame() throws IOException {
+    }
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -57,8 +78,8 @@ public class BombermanGame extends Application {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
+
         // Tao root container
-        Group root = new Group();
         root.getChildren().add(canvas);
 
         // Tao scene
@@ -68,18 +89,31 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+        menu.generate();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                render();
-                update();
+                if (isRunning()) {
+                    if(!isPlay) {
+                        a.play();
+                        isPlay = true;
+                    }
+                    render();
+                    update();
+                }
             }
         };
         timer.start();
         createMap(); // tao map tu level.txt
 
         // chay nhac nen
-        Sound.play("res/sounds/backSound.wav");
+        a.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                a.seek(Duration.ZERO);
+            }
+        });
+        if (isRunning())
+            a.play();
 
         // tao ra bomberman
         bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
@@ -136,21 +170,30 @@ public class BombermanGame extends Application {
         map.loadMap();
     }
 
-    private boolean isPlayWinSound = false;
-
+    private boolean isWinSound = false;
     // update lien tuc cac nhan vat
     public void update() {
-        Bomber.bombs.forEach(Bomb::update);
-        bomberman.update();
-        enemies.forEach(Enemy::update);
-        enemies.removeIf(Enemy::isRemoved);
-        Bricks.removeIf(Brick::isRemoved);
-        items.removeIf(Item::isHasGot);
-        portal.update();
-        if (!isPlayWinSound && portal.isOpen() && bomberman.inPortal()) {
-                Sound.play("res/sounds/win.wav");
-                isPlayWinSound = true;
+        if (bomberman.getHeart() > 0) {
+            if (!(portal.isOpen() && bomberman.inPortal())) {
+                Bomber.bombs.forEach(Bomb::update);
+                bomberman.update();
+                enemies.forEach(Enemy::update);
+                enemies.removeIf(Enemy::isRemoved);
+                Bricks.removeIf(Brick::isRemoved);
+                items.removeIf(Item::isHasGot);
+                portal.update();
+            } else {
+                if (!isWinSound) {
+                    a.stop();
+                    Sound.play("res/sounds/win.wav");
+                    isWinSound = true;
+                }
+            }
+        } else {
+            bomberman.update();
+            Bomber.bombs.forEach(Bomb::update);
         }
+
     }
 
     // render lien tuc cac nhan vat

@@ -12,8 +12,8 @@ public class Oneal extends Enemy {
         super(xUnit, yUnit, img);
         time = 0;
         SPEED = 1;
-        w = 31;
-        h = 31;
+        w = 28;
+        h = 28;
         inBomb = false;
     }
 
@@ -32,25 +32,29 @@ public class Oneal extends Enemy {
     public void setDistance(int _x, int _y, int[][] distance, int value) {
         if (_x - 1 >= 0 && value < distance[_y][_x - 1]
                 && BombermanGame.map.getMAP_ENTITIES()[_y][_x - 1] != '#'
-                 && BombermanGame.map.getMAP_ENTITIES()[_y][_x - 1] != '*') {
+                 && BombermanGame.map.getMAP_ENTITIES()[_y][_x - 1] != '*'
+                && BombermanGame.map.getMAP_ENTITIES()[_y][_x - 1] != 'b') {
             distance[_y][_x - 1] = distance[_y][_x] + 1;
             setDistance(_x - 1, _y, distance, distance[_y][_x - 1] + 1);
         }
         if (_y - 1 >= 0 && value < distance[_y - 1][_x]
                 && BombermanGame.map.getMAP_ENTITIES()[_y - 1][_x] != '#'
-                && BombermanGame.map.getMAP_ENTITIES()[_y - 1][_x] != '*') {
+                && BombermanGame.map.getMAP_ENTITIES()[_y - 1][_x] != '*'
+                && BombermanGame.map.getMAP_ENTITIES()[_y - 1][_x] != 'b') {
             distance[_y - 1][_x] = distance[_y][_x] + 1;
             setDistance(_x, _y - 1, distance, distance[_y - 1][_x] + 1);
         }
         if (_x + 1 < BombermanGame.WIDTH && value < distance[_y][_x + 1]
                 && BombermanGame.map.getMAP_ENTITIES()[_y][_x + 1] != '#'
-                && BombermanGame.map.getMAP_ENTITIES()[_y][_x + 1] != '*') {
+                && BombermanGame.map.getMAP_ENTITIES()[_y][_x + 1] != '*'
+                && BombermanGame.map.getMAP_ENTITIES()[_y][_x + 1] != 'b') {
             distance[_y][_x + 1] = distance[_y][_x] + 1;
             setDistance(_x + 1, _y, distance, distance[_y][_x + 1] + 1);
         }
         if (_y + 1 < BombermanGame.HEIGHT && value < distance[_y + 1][_x]
                 && BombermanGame.map.getMAP_ENTITIES()[_y + 1][_x] != '#'
-                && BombermanGame.map.getMAP_ENTITIES()[_y + 1][_x] != '*') {
+                && BombermanGame.map.getMAP_ENTITIES()[_y + 1][_x] != '*'
+                && BombermanGame.map.getMAP_ENTITIES()[_y + 1][_x] != 'b') {
             distance[_y + 1][_x] = distance[_y][_x] + 1;
             setDistance(_x, _y + 1, distance, distance[_y + 1][_x] + 1);
         }
@@ -83,10 +87,12 @@ public class Oneal extends Enemy {
     public WALK_TYPE chooseDirection() {
         CreateDistance();
         setDistance(BombermanGame.bomberman.getCurrX1(), BombermanGame.bomberman.getCurrY1(), this.distance, 1);
-        int Cx = this.getCurrX1();
-        int Cy = this.getCurrY1();
-        System.out.println("" + distance[Cy][Cx] + " " + distance[Cy + 1][Cx] + " " + distance[Cy - 1][Cx]
-            + " " + distance[Cy][Cx - 1] + " " + distance[Cy][Cx + 1]);
+        int Cx = (int) (this.getX() + this.getW() / 2) / Sprite.SCALED_SIZE;
+        int Cy = (int) (this.getY() + this.getH() / 2) / Sprite.SCALED_SIZE;
+//        System.out.println("" + Cy + " " + Cx + " " + distance[Cy][Cx] + "\n" + (Cy + 1) + " " + Cx + " " + distance[Cy + 1][Cx]
+//                        + "\n" + (Cy - 1) + " " + Cx + " " + distance[Cy - 1][Cx]
+//                        + "\n" + Cy + " " + (Cx - 1) + " " + distance[Cy][Cx - 1]
+//                        + "\n" + Cy + " " + (Cx + 1) + " " +  distance[Cy][Cx + 1]);
         // now - down - up - left - right
         if(distance[Cy][Cx] == Integer.MAX_VALUE) {
             return null;

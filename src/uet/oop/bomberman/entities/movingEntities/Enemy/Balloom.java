@@ -21,7 +21,7 @@ public class Balloom extends Enemy {
     // animation cho ballom
     @Override
     public void animation() {
-        if (!isDead) {
+        if (!isDead && status != null) {
             switch (status) {
                 case UP:
                 case RIGHT:

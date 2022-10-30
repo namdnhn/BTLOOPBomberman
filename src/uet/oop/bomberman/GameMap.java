@@ -5,7 +5,6 @@ import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
 import uet.oop.bomberman.entities.Items.Item;
 import uet.oop.bomberman.entities.Items.SpeedItem;
-import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Balloom;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Oneal;
@@ -123,14 +122,14 @@ public class GameMap {
                 if ((MAP_ENTITIES[y1][x2] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                         || (MAP_ENTITIES[y1][x2] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                         || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
-                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() < s2) {
+                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() <= s2) {
                         entity.raiseVY();
                         entity.raiseVX();
                     }
                 } else if ((MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y2][x2] == '*')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y2][x2] == '#')
                         || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) > s1) {
+                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) >= s1) {
                         entity.lowVY();
                         entity.raiseVX();
                     }
@@ -150,14 +149,14 @@ public class GameMap {
                 if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#')
                         || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')
                         || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() < s2) {
+                    if (y1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getY() <= s2) {
                         entity.raiseVY();
                         entity.lowVX();
                     }
                 } else if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y2][x1] == '*')
                         || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y2][x1] == '#')
                         || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) > s1) {
+                    if (y2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getY() + entity.getH()) >= s1) {
                         entity.lowVY();
                         entity.lowVX();
                     }
@@ -195,14 +194,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y2][x1] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                                 || (MAP_ENTITIES[y2][x1] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                                 || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
-                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() < s2) {
+                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() <= s2) {
                                 entity.raiseVX();
                                 entity.raiseVX();
                             }
                         } else if ((MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x2] == '*')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x2] == '#')
                                 || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
-                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) > s1) {
+                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) >= s1) {
                                 entity.lowVX();
                                 entity.raiseVX();
                             }
@@ -228,14 +227,14 @@ public class GameMap {
                         if ((MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x2] == '*')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*' && MAP_ENTITIES[y1][x2] == '#')
                                 || (MAP_ENTITIES[y1][x1] != '#' && MAP_ENTITIES[y1][x1] != '*')) {
-                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) > s1) {
+                            if (x2 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - (entity.getX() + entity.getW()) >= s1) {
                                 entity.lowVX();
                                 entity.lowVY();
                             }
                         } else if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y1][x2] != '*' && MAP_ENTITIES[y1][x2] != '#')
                                 || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')
                                 || (MAP_ENTITIES[y1][x2] != '#' && MAP_ENTITIES[y1][x2] != '*')) {
-                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() < s2) {
+                            if (x1 * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE - entity.getX() <= s2) {
                                 entity.raiseVX();
                                 entity.lowVY();
                             }

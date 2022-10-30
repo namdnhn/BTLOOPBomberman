@@ -156,15 +156,20 @@ public class Bomber extends movingEntity {
         up2 = portal.getY();
         down2 = portal.getY() + Sprite.SCALED_SIZE;;
 
-        if (left1 <= left2 && right1 >= left2) {
-            if (up1 <= up2 && down1 >= up2)          return true;
-            else return up1 >= up2 && down2 >= up1;
-        }
-        else if (left2 <= left1 && right2 >= left1) {
+        if (left1 < left2 && right1 > (left2 + right2) / 2) {
             if (up1 <= up2 && down1 >= up2) return true;
             else return up1 >= up2 && down2 >= up1;
+        } else if (left2 < left1 && right2 > (left1 + right1) / 2) {
+            if (up1 <= up2 && down1 >= up2) return true;
+            else return up1 >= up2 && down2 >= up1;
+        } else if (up2 < up1 && down2 > (up1 + down1) / 2) {
+            if (left1 <= left2 && right1 >= left2) return true;
+            else return left1 >= left2 && right2 >= left1;
+        } else if (up1 < up2 && down1 > (up2 + down2) / 2) {
+            if (left1 <= left2 && right1 >= left2) return true;
+            else return left1 >= left2 && right2 >= left1;
         }
-        else return false;
+        return false;
     }
 
     // control di chuyen
@@ -196,6 +201,7 @@ public class Bomber extends movingEntity {
         for (Enemy e : BombermanGame.enemies) {
             if (checkCollision(e)) {
                 setHeart(getHeart() - 1);
+                BombermanGame.a.stop();
                 Sound.play("res/sounds/die.wav");
                 break;
             }
@@ -203,11 +209,13 @@ public class Bomber extends movingEntity {
         for (Bomb b : bombs) {
             if (b.isBoom() && checkKilled(b.verticalKillingArea)) {
                 setHeart(getHeart() - 1);
+                BombermanGame.a.stop();
                 Sound.play("res/sounds/die.wav");
                 break;
             }
             if (b.isBoom() && checkKilled(b.horizontalKillingArea)) {
                 setHeart(getHeart() - 1);
+                BombermanGame.a.stop();
                 Sound.play("res/sounds/die.wav");
                 break;
             }
