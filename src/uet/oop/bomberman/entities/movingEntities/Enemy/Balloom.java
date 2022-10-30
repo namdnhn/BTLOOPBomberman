@@ -18,6 +18,7 @@ public class Balloom extends Enemy {
         inBomb = false;
     }
 
+    // animation cho ballom
     @Override
     public void animation() {
         if (!isDead) {
@@ -35,12 +36,17 @@ public class Balloom extends Enemy {
             }
         }
     }
+
+    // se di theo huong nao
     private boolean goUp, goDown, goLeft, goRight;
+
+    // co di chuyen duoc khong
     private boolean canMove = true;
     @Override
     public void move() {
+        // Chon huong di bang cach random huong. Khi nao khong di duoc thi moi phai doi huong
         double rand;
-        if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0 || !canMove) {
+        if (!canMove) {
             rand = Math.random();
             if (rand < 0.25) {
                 goUp = true;
@@ -69,6 +75,7 @@ public class Balloom extends Enemy {
             }
         }
 
+        // neu di duoc thi canMove = true
         if (!canMove) {
             canMove = true;
         }
@@ -91,6 +98,7 @@ public class Balloom extends Enemy {
         }
 
         BombermanGame.map.mapCollision(this);
+        // neu nhu van toc bang 0 tuc la enemy khong di duoc -> chuyen canMove ve false de ham random chay duoc
         if (valX == 0 && valY == 0) {
             canMove = false;
         }
@@ -99,6 +107,7 @@ public class Balloom extends Enemy {
         y += valY;
     }
 
+    // update lien tuc tinh trang cua entity
     @Override
     public void update() {
         if(!isDead) {

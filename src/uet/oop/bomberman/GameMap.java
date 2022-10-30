@@ -116,7 +116,7 @@ public class GameMap {
                 }
             }
 
-            if (entity instanceof Bomber) {
+            if (entity instanceof Bomber || entity instanceof Oneal) {
                 if ((MAP_ENTITIES[y1][x2] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                         || (MAP_ENTITIES[y1][x2] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')
                         || (MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')) {
@@ -143,7 +143,7 @@ public class GameMap {
                     entity.setValX(0);
                 }
             }
-            if (entity instanceof Bomber) {
+            if (entity instanceof Bomber || entity instanceof Oneal) {
                 if ((MAP_ENTITIES[y1][x1] == '*' && MAP_ENTITIES[y2][x1] != '*' && MAP_ENTITIES[y2][x1] != '#')
                         || (MAP_ENTITIES[y1][x1] == '#' && MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')
                         || (MAP_ENTITIES[y2][x1] != '#' && MAP_ENTITIES[y2][x1] != '*')) {
@@ -187,7 +187,7 @@ public class GameMap {
                         || MAP_ENTITIES[y2][x1] == 'i' || MAP_ENTITIES[y2][x2] == 'i'
                         || MAP_ENTITIES[y2][x1] == 'x' || MAP_ENTITIES[y2][x2] == 'x'
                         || (!entity.isInBomb() && (MAP_ENTITIES[y2][x1] == 'b' || MAP_ENTITIES[y2][x2] == 'b'))) {
-                    if (entity instanceof Bomber) {
+                    if (entity instanceof Bomber || entity instanceof Oneal) {
 
                         if ((MAP_ENTITIES[y2][x1] == '*' && MAP_ENTITIES[y2][x2] != '*' && MAP_ENTITIES[y2][x2] != '#')
                                 || (MAP_ENTITIES[y2][x1] == '#' && MAP_ENTITIES[y2][x2] != '#' && MAP_ENTITIES[y2][x2] != '*')

@@ -13,6 +13,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.GameMap;
 import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.entities.Items.Item;
+import uet.oop.bomberman.entities.Portal;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.KillingArea;
@@ -153,6 +154,29 @@ public class Bomber extends movingEntity {
         }
     }
 
+    public boolean inPortal() {
+        Portal portal = BombermanGame.portal;
+        int left1, left2, right1, right2, up1, up2, down1, down2;
+        left1 = this.getX();
+        right1 = this.getX() + Sprite.SCALED_SIZE;
+        up1 = this.getY();
+        down1 = this.getY() + Sprite.SCALED_SIZE;
+        left2 = portal.getX();
+        right2 = portal.getX() + Sprite.SCALED_SIZE;;
+        up2 = portal.getY();
+        down2 = portal.getY() + Sprite.SCALED_SIZE;;
+
+        if (left1 <= left2 && right1 >= left2) {
+            if (up1 <= up2 && down1 >= up2)          return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else if (left2 <= left1 && right2 >= left1) {
+            if (up1 <= up2 && down1 >= up2) return true;
+            else return up1 >= up2 && down2 >= up1;
+        }
+        else return false;
+    }
+
     @Override
     public void move() {
         valX = 0;
@@ -180,7 +204,6 @@ public class Bomber extends movingEntity {
         for (Enemy e : BombermanGame.enemies) {
             if (checkCollision(e)) {
                 setHeart(getHeart() - 1);
-                Sound.stop("res/sounds/backSound.wav");
                 Sound.play("res/sounds/die.wav");
                 break;
             }

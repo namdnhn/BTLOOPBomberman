@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Items.Item;
@@ -22,6 +23,7 @@ import javax.print.attribute.standard.Media;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +37,7 @@ public class BombermanGame extends Application {
     public static Scene scene;
     public int LEVEL;
 
-    public static List<movingEntity> movingEntities = new ArrayList<>();
-
+    // list cac doi tuong tren map
     public static List<Grass> grassEntities = new ArrayList<>();
     public static List<Brick> Bricks = new ArrayList<>();
     public static List<Wall> Wall = new ArrayList<>();
@@ -44,13 +45,12 @@ public class BombermanGame extends Application {
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Item> items = new ArrayList<>();
     public static Portal portal;
-
+    public static Bomber bomberman;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
-    public static Bomber bomberman;
     @Override
     public void start(Stage stage) throws UnsupportedAudioFileException, IOException {
         // Tao Canvas
@@ -76,14 +76,15 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-        createMap();
+        createMap(); // tao map tu level.txt
 
+        // chay nhac nen
         Sound.play("res/sounds/backSound.wav");
 
+        // tao ra bomberman
         bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
-        movingEntities.add(bomberman);
 
-        /** Moving Key. */
+        // control dieu khien bang ban phim
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -115,6 +116,7 @@ public class BombermanGame extends Application {
             }
         });
 
+        // control ban phim khi khong nhan phim nua
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -134,16 +136,24 @@ public class BombermanGame extends Application {
         map.loadMap();
     }
 
+    private boolean isPlayWinSound = false;
+
+    // update lien tuc cac nhan vat
     public void update() {
         Bomber.bombs.forEach(Bomb::update);
-        movingEntities.forEach(movingEntity::update);
+        bomberman.update();
         enemies.forEach(Enemy::update);
         enemies.removeIf(Enemy::isRemoved);
         Bricks.removeIf(Brick::isRemoved);
         items.removeIf(Item::isHasGot);
         portal.update();
+        if (!isPlayWinSound && portal.isOpen() && bomberman.inPortal()) {
+                Sound.play("res/sounds/win.wav");
+                isPlayWinSound = true;
+        }
     }
 
+    // render lien tuc cac nhan vat
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grassEntities.forEach(g -> g.render(gc));
@@ -151,7 +161,7 @@ public class BombermanGame extends Application {
         items.forEach(g -> g.render(gc));
         Bricks.forEach(g -> g.render(gc));
         Wall.forEach(g -> g.render(gc));
-        movingEntities.forEach(g -> g.render(gc));
+        bomberman.render(gc);
         enemies.forEach(g -> g.render(gc));
         bomberman.renderBomb(gc);
     }
