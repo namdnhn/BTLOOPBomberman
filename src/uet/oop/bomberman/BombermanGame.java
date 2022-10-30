@@ -61,7 +61,12 @@ public class BombermanGame extends Application {
 
     private static boolean Running = false;
     private boolean isPlay = false;
-    private boolean isLevelUp = false;
+
+    public static void setLevelUp(boolean levelUp) {
+        isLevelUp = levelUp;
+    }
+
+    private static boolean isLevelUp = false;
 
     public BombermanGame() throws IOException {
     }

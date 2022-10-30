@@ -83,7 +83,7 @@ public class Bomber extends movingEntity {
         w = Sprite.SCALED_SIZE * 5 / 6;
         h = Sprite.SCALED_SIZE * 5 / 6;
         time = 0;
-        bombLimit = 3;
+        bombLimit = 1;
         heart = 1;
         _area = 1;
     }

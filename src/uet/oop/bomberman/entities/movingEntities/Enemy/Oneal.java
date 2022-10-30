@@ -87,13 +87,8 @@ public class Oneal extends Enemy {
     public WALK_TYPE chooseDirection() {
         CreateDistance();
         setDistance(BombermanGame.bomberman.getCurrX1(), BombermanGame.bomberman.getCurrY1(), this.distance, 1);
-        int Cx = (int) (this.getX() + this.getW() / 2) / Sprite.SCALED_SIZE;
-        int Cy = (int) (this.getY() + this.getH() / 2) / Sprite.SCALED_SIZE;
-//        System.out.println("" + Cy + " " + Cx + " " + distance[Cy][Cx] + "\n" + (Cy + 1) + " " + Cx + " " + distance[Cy + 1][Cx]
-//                        + "\n" + (Cy - 1) + " " + Cx + " " + distance[Cy - 1][Cx]
-//                        + "\n" + Cy + " " + (Cx - 1) + " " + distance[Cy][Cx - 1]
-//                        + "\n" + Cy + " " + (Cx + 1) + " " +  distance[Cy][Cx + 1]);
-        // now - down - up - left - right
+        int Cx = (this.getX() + this.getW() / 2) / Sprite.SCALED_SIZE;
+        int Cy = (this.getY() + this.getH() / 2) / Sprite.SCALED_SIZE;
         if(distance[Cy][Cx] == Integer.MAX_VALUE) {
             return null;
         } else {
