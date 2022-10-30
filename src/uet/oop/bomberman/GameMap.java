@@ -29,6 +29,7 @@ public class GameMap {
 
     private final char[][] MAP_ENTITIES = new char[BombermanGame.HEIGHT][BombermanGame.WIDTH];
 
+    // doc file txt chua map
     public void readMap() {
         File file = new File("res/levels/Level2.txt");
         try {
@@ -45,6 +46,7 @@ public class GameMap {
         }
     }
 
+    // tai map len man hinh
     public void loadMap() {
 
         for (int i = 0; i < BombermanGame.HEIGHT; ++i) {
@@ -91,6 +93,7 @@ public class GameMap {
         }
     }
 
+    // check va cham trong map
     public void mapCollision(movingEntity entity) {
         int x1;
         int x2;

@@ -6,10 +6,6 @@ import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.KillingArea;
 import uet.oop.bomberman.graphics.Sprite;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
-import java.util.List;
-
 public abstract class movingEntity {
     public int getX() {
         return x;
@@ -136,6 +132,7 @@ public abstract class movingEntity {
         this.img = img;
     }
 
+    // check va cham
     public boolean checkCollision(movingEntity object) {
         int left1, left2, right1, right2, up1, up2, down1, down2;
         left1 = this.getX();
@@ -158,6 +155,7 @@ public abstract class movingEntity {
         else return false;
     }
 
+    // check killed by flames
     public boolean checkKilled(KillingArea killingArea) {
         int left1, left2, right1, right2, up1, up2, down1, down2;
         left1 = this.getX();
@@ -180,6 +178,7 @@ public abstract class movingEntity {
         else return false;
     }
 
+    // check in bomb để có thể xuyên qua bom ngay sau khi dat
     public boolean checkInBomb(Bomb object) {
         int left1, left2, right1, right2, up1, up2, down1, down2;
         left1 = this.getX() + 2;

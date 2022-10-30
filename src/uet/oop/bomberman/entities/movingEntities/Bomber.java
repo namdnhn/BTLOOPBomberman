@@ -1,29 +1,16 @@
 package uet.oop.bomberman.entities.movingEntities;
 
-import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.GameMap;
 import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.entities.Items.Item;
 import uet.oop.bomberman.entities.Portal;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
-import uet.oop.bomberman.entities.bomb.KillingArea;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
-import uet.oop.bomberman.entities.movingEntities.movingEntity;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.GameMap;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +81,7 @@ public class Bomber extends movingEntity {
         _area = 1;
     }
 
+    // dat bom
     public void placeBomb(int x, int y) {
         if (bombs.size() < bombLimit) {
             int newX, newY;
@@ -126,6 +114,7 @@ public class Bomber extends movingEntity {
         }
     }
 
+    // an item
     public void gotItem(Item item) {
         int left1, left2, right1, right2, up1, up2, down1, down2;
         left1 = this.getX();
@@ -154,6 +143,7 @@ public class Bomber extends movingEntity {
         }
     }
 
+    // vao portal
     public boolean inPortal() {
         Portal portal = BombermanGame.portal;
         int left1, left2, right1, right2, up1, up2, down1, down2;
@@ -177,6 +167,7 @@ public class Bomber extends movingEntity {
         else return false;
     }
 
+    // control di chuyen
     @Override
     public void move() {
         valX = 0;
@@ -200,6 +191,7 @@ public class Bomber extends movingEntity {
         y += valY;
     }
 
+    // kiem soat khi bomber bi giet
     public void kill() {
         for (Enemy e : BombermanGame.enemies) {
             if (checkCollision(e)) {
@@ -222,6 +214,7 @@ public class Bomber extends movingEntity {
         }
     }
 
+    // update lien tuc bomber
     @Override
     public void update() {
         if(getHeart() > 0) {
@@ -240,7 +233,7 @@ public class Bomber extends movingEntity {
         bombs.removeIf(Bomb::isRemoved);
     }
 
-    /** Moving Key. */
+    // animation cua bomber
     @Override
     public void animation() {
         switch (status) {
@@ -264,6 +257,7 @@ public class Bomber extends movingEntity {
     }
 
 
+    // render bomb len man hinh
     public void renderBomb(GraphicsContext gc) {
         for (Bomb b : bombs) {
             b.render(gc);
