@@ -2,6 +2,8 @@ package uet.oop.bomberman.entities.movingEntities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.entities.Items.Item;
@@ -11,6 +13,7 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.movingEntities.Enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,10 @@ public class Bomber extends movingEntity {
     }
 
     private static int _area;
+    private static final File resource = new File("res/sounds/gameOver.wav");
+    public static MediaPlayer a = new MediaPlayer(new Media(resource.toURI().toString()));
+
+    private boolean isPlay = false;
 
 
     public Bomber(int x, int y, Image img) {
@@ -202,7 +209,10 @@ public class Bomber extends movingEntity {
             if (checkCollision(e)) {
                 setHeart(getHeart() - 1);
                 BombermanGame.a.stop();
-                Sound.play("res/sounds/die.wav");
+                if(!isPlay) {
+                    a.play();
+                    isPlay = true;
+                }
                 break;
             }
         }
@@ -210,13 +220,19 @@ public class Bomber extends movingEntity {
             if (b.isBoom() && checkKilled(b.verticalKillingArea)) {
                 setHeart(getHeart() - 1);
                 BombermanGame.a.stop();
-                Sound.play("res/sounds/die.wav");
+                if(!isPlay) {
+                    a.play();
+                    isPlay = true;
+                }
                 break;
             }
             if (b.isBoom() && checkKilled(b.horizontalKillingArea)) {
                 setHeart(getHeart() - 1);
                 BombermanGame.a.stop();
-                Sound.play("res/sounds/die.wav");
+                if(!isPlay) {
+                    a.play();
+                    isPlay = true;
+                }
                 break;
             }
         }

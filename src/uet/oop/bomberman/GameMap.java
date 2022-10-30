@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static uet.oop.bomberman.BombermanGame.LEVEL;
+
 public class GameMap {
     public char[][] getMAP_ENTITIES() {
         return MAP_ENTITIES;
@@ -30,7 +32,7 @@ public class GameMap {
 
     // doc file txt chua map
     public void readMap() {
-        File file = new File("res/levels/Level2.txt");
+        File file = new File("res/levels/Level" + LEVEL + ".txt");
         try {
             Scanner sc = new Scanner(file);
             for (int i = 0; i < BombermanGame.HEIGHT; i++) {

@@ -22,13 +22,10 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.menu.BackGroundMenu;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BombermanGame extends Application {
 
@@ -38,7 +35,7 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static Scene scene;
-    public int LEVEL;
+    public static int LEVEL = 1;
     public static Group root = new Group();
     private BackGroundMenu menu = new BackGroundMenu();
 
@@ -54,7 +51,7 @@ public class BombermanGame extends Application {
     private static final File resource = new File("res/sounds/backSound.wav");
     public static MediaPlayer a = new MediaPlayer(new Media(resource.toURI().toString()));
 
-    public boolean isRunning() {
+    public static boolean isRunning() {
         return Running;
     }
 
@@ -64,6 +61,7 @@ public class BombermanGame extends Application {
 
     private static boolean Running = false;
     private boolean isPlay = false;
+    private boolean isLevelUp = false;
 
     public BombermanGame() throws IOException {
     }
@@ -106,14 +104,6 @@ public class BombermanGame extends Application {
         timer.start();
         createMap(); // tao map tu level.txt
 
-        // chay nhac nen
-        a.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                a.seek(Duration.ZERO);
-            }
-        });
-        if (isRunning())
-            a.play();
 
         // tao ra bomberman
         bomberman = new Bomber(Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.player_right.getFxImage());
@@ -165,12 +155,14 @@ public class BombermanGame extends Application {
     }
 
     public static GameMap map = new GameMap();
-    public void createMap() {
+    public static void createMap() {
         map.readMap();
         map.loadMap();
     }
 
     private boolean isWinSound = false;
+    private static final File resource1 = new File("res/sounds/win.wav");
+    public static MediaPlayer b = new MediaPlayer(new Media(resource1.toURI().toString()));
     // update lien tuc cac nhan vat
     public void update() {
         if (bomberman.getHeart() > 0) {
@@ -185,15 +177,18 @@ public class BombermanGame extends Application {
             } else {
                 if (!isWinSound) {
                     a.stop();
-                    Sound.play("res/sounds/win.wav");
+                    b.play();
                     isWinSound = true;
+                } if (!isLevelUp) {
+                    menu.LevelUp();
+                    isLevelUp = true;
                 }
             }
         } else {
             bomberman.update();
             Bomber.bombs.forEach(Bomb::update);
+            menu.GameOver();
         }
-
     }
 
     // render lien tuc cac nhan vat
