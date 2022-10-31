@@ -16,7 +16,7 @@ public class Portal extends Entity {
     private boolean open;
     public Portal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        open = true;
+        open = false;
     }
 
     public Portal(int xUnit, int yUnit) {

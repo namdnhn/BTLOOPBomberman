@@ -103,8 +103,8 @@ public class GameMap {
         int s1 = Sprite.SCALED_SIZE * 5 / 6;
         int s2 = Sprite.SCALED_SIZE / 2;
 
-        x1 = (int) (entity.getX() + entity.getValX()) / Sprite.SCALED_SIZE;
-        x2 = (int) (entity.getX() + entity.getValX() + entity.getW() - 1) / Sprite.SCALED_SIZE;
+        x1 = (entity.getX() + entity.getValX()) / Sprite.SCALED_SIZE;
+        x2 = (entity.getX() + entity.getValX() + entity.getW() - 1) / Sprite.SCALED_SIZE;
         y1 = entity.getY() / Sprite.SCALED_SIZE;
         y2 = (entity.getY() + entity.getH() - 1) / Sprite.SCALED_SIZE;
 
